@@ -55,24 +55,3 @@ events.on_nth_tick(
 		end
 	end
 )
-
-commands.add_command(
-	"set_last_user",
-	nil,
-	function(c)
-		if c.player_index then
-			local player = game.players[c.player_index]
-			local surface = player.surface
-
-			local entity_types = {}
-
-			for _, entity in pairs(surface.find_entities()) do
-				if not entity_types[entity.type] then
-					entity_types[entity.type] = true
-				end
-			end
-
-			player.print(serpent.line(entity_types))
-		end
-	end
-)

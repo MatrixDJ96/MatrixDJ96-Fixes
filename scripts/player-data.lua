@@ -1,14 +1,19 @@
 local mod_gui = require("__core__.lualib.mod-gui")
-local constants = require("constants")
 
 local player_data = {}
 
-local has_inventory_opened = function(player)
-	if player.opened_self then
+local has_inventory_opened = function (player)
+	if player.opened_self or (player.opened_gui_type == defines.gui_type.blueprint_library) or player.opened_gui_type == (defines.gui_type.other_player) then
 		return true
 	end
-	if player.opened and player.opened.valid and (player.opened.object_name == "LuaEntity") then
-		return player.opened.get_output_inventory() or player.opened.get_module_inventory() or player.opened.get_fuel_inventory()
+
+	if player.opened_gui_type == defines.gui_type.entity then
+		for _, index in pairs(defines.inventory) do
+			local inventory = player.opened.get_inventory(index)
+			if inventory and inventory.valid then
+				return true
+			end
+		end
 	end
 end
 
@@ -16,9 +21,29 @@ function player_data.fix_manual_inventory_sort(player)
 	if not has_inventory_opened(player) then
 		if player.gui.left["manual-inventory-sort-buttons"] then
 			player.gui.left["manual-inventory-sort-buttons"].destroy()
-			-- player.print(serpent.block("fix_manual_inventory_sort"))
+		end
+	else
+		if not player.gui.left["manual-inventory-sort-buttons"] then
+			local frame = player.gui.left.add({
+				type = "frame",
+				name = "manual-inventory-sort-buttons",
+				direction = "vertical",
+				caption = {"manual-inventory-gui-sort-title"}
+			})
+			frame.add({type = "button", name = "manual-inventory-sort-player", caption = {"manual-inventory-gui-sort_player"}})
+			if player.controller_type == defines.controllers.character then
+				frame.add({type = "button", name = "manual-inventory-sort-player-trash", caption = {"manual-inventory-gui-sort_player_trash"}})
+			end
 		end
 	end
+
+	if not player.gui.left["manual-inventory-sort-buttons"] then
+		if player.gui.relative["manual-inventory-sort-buttons"] then
+			player.gui.relative["manual-inventory-sort-buttons"].destroy()
+		end
+	end
+	
+	-- player.print(serpent.block("fix_manual_inventory_sort"))
 end
 
 function player_data.fix_todo_list(player)
@@ -57,33 +82,6 @@ function player_data.fix_all(player)
 	player_data.fix_manual_inventory_sort(player)
 	player_data.fix_todo_list(player)
 	player_data.fix_train_log(player)
-end
-
-function player_data.copy_player(from_player, to_player)
-	for _, index in ipairs(constants.character_inventories) do
-		local to_inventory = to_player.get_inventory(index)
-		local from_inventory = from_player.get_inventory(index)
-
-		to_inventory.clear()
-
-		for i = 1, #from_inventory do
-			to_inventory.insert(from_inventory[i])
-			if from_inventory.supports_filters() then
-				local filter = from_inventory.get_filter(i)
-				if filter then
-					to_inventory.set_filter(i, filter)
-				end
-			end
-		end
-	end
-
-	for i = 1, 1000 do
-		to_player.set_personal_logistic_slot(i, from_player.get_personal_logistic_slot(i))
-	end
-
-	for i = 1, 100 do
-		to_player.set_quick_bar_slot(i, from_player.get_quick_bar_slot(i))
-	end
 end
 
 return player_data

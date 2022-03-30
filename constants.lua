@@ -20,11 +20,4 @@ constants.player_events = {
 	defines.events.on_player_joined_game
 }
 
-constants.character_inventories = {
-	defines.inventory.character_main,
-	defines.inventory.character_guns,
-	defines.inventory.character_ammo,
-	defines.inventory.character_armor
-}
-
 return constants
