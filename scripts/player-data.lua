@@ -47,6 +47,26 @@ function player_data.fix_manual_inventory_sort(player)
 		end
 	end
 
+	if player.gui.left["manual-inventory-sort-buttons"] then
+		if not player.gui.relative["manual-inventory-sort-buttons"] then
+			local frame = player.gui.relative.add({
+				type = "frame",
+				name = "manual-inventory-sort-buttons",
+				direction = "vertical",
+				caption = {"manual-inventory-gui-sort-title"},
+				anchor = {
+					gui = defines.relative_gui_type.controller_gui, -- TODO: Da rivedere
+					position = defines.relative_gui_position.left,
+				}
+			})
+
+			for _, element in pairs(player.gui.left["manual-inventory-sort-buttons"].children) do
+				frame.add({type = element.type, name = element.name, caption = element.caption})
+			end
+		end
+		player.gui.left["manual-inventory-sort-buttons"].destroy()
+	end
+
 	-- player.print(serpent.block("fix_manual_inventory_sort"))
 end
 
