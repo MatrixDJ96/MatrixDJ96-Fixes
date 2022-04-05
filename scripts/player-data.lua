@@ -18,6 +18,10 @@ local has_inventory_opened = function (player)
 end
 
 function player_data.fix_manual_inventory_sort(player)
+	if not game.active_mods["manual-inventory-sort"] or not settings.player["manual-inventory-sort-buttons"] then
+		return
+	end
+
 	if not has_inventory_opened(player) then
 		if player.gui.left["manual-inventory-sort-buttons"] then
 			player.gui.left["manual-inventory-sort-buttons"].destroy()
@@ -47,6 +51,10 @@ function player_data.fix_manual_inventory_sort(player)
 end
 
 function player_data.fix_todo_list(player)
+	if not game.active_mods["Todo-List"] then
+		return
+	end
+
 	local button_flow = mod_gui.get_button_flow(player)
 
 	if button_flow.todo_maximize_button then
@@ -69,6 +77,10 @@ function player_data.fix_todo_list(player)
 end
 
 function player_data.fix_train_log(player)
+	if not game.active_mods["train-log"] then
+		return
+	end
+
 	local button_flow = mod_gui.get_button_flow(player)
 
 	if button_flow.train_log then
