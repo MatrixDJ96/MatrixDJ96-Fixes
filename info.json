@@ -1,6 +1,6 @@
 {
 	"name": "MatrixDJ96-Fixes",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"factorio_version": "1.1",
 	"title": "MatrixDJ96: Fixes",
 	"author": "MatrixDJ96",
@@ -11,6 +11,8 @@
 		"flib >= 0.7.0",
 		"? manual-inventory-sort",
 		"? train-log",
+		"? GUI_Unifyer",
+		"? TaskList",
 		"? Todo-List"
 	]
 }
