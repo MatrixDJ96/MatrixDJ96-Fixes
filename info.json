@@ -10,9 +10,7 @@
 		"base >= 1.1",
 		"flib >= 0.7.0",
 		"? manual-inventory-sort",
-		"? train-log",
 		"? GUI_Unifyer",
-		"? TaskList",
-		"? Todo-List"
+		"? TaskList"
 	]
 }

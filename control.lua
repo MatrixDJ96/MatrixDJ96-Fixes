@@ -45,14 +45,6 @@ events.register(
 			-- player.print(serpent.block("task_list"))
 		end
 
-		global_data.tick_functions.todo_list = function()
-			player_data.fix_todo_list(player)
-			if not player.gui.screen["todo_main_frame"] and not player.gui.screen["todo_edit_dialog"] then
-				global_data.tick_functions.todo_list = nil
-			-- player.print(serpent.block("todo_list"))
-			end
-		end
-
 		if e.element and e.element.name == "task_maximize_button" then
 			if player.gui.screen.tlst_tasks_window then
 				player.gui.screen.tlst_tasks_window.visible = not player.gui.screen.tlst_tasks_window.visible
