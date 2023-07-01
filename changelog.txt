@@ -8,4 +8,14 @@ Version: 0.0.2
 Date: 2022-04-18
   Changes:
     - Added support for GUI Unifier
-	- Added support for Task List
+    - Added support for Task List
+---------------------------------------------------------------------------------------------------
+Version: 0.0.3
+Date: 2023-07-02
+  Changes:
+    - Removed Train Log support
+    - Removed Todo List support
+    - Removed dependency to flib library
+    - Fixed Someone's LUA-Console strings
+    - Improved Task List hooks method and icon
+    - Improved Manual Inventory sort buttons
