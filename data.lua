@@ -7,6 +7,14 @@ data:extend(
 			flags = { "linear-minification", "linear-magnification" },
 			width = 64,
 			height = 64
+		},
+		{
+			type = "sprite",
+			name = "matrixdj96_trash_icon",
+			filename = "__MatrixDJ96-Fixes__/graphics/icons/trash.png",
+			flags = { "linear-minification", "linear-magnification" },
+			width = 64,
+			height = 64
 		}
 	}
 )

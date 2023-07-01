@@ -47,6 +47,13 @@ events.register(
 	end
 )
 
+events.register(
+	defines.events.on_string_translated,
+	function(e)
+		player_data.translate_manual_inventory_sort(game.players[e.player_index], e.id, e.result)
+	end
+)
+
 events.on_nth_tick(
 	1,
 	function()

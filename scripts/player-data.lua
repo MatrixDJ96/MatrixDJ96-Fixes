@@ -22,32 +22,87 @@ player_data.fix_manual_inventory_sort = function(player, force)
         return
     end
 
-    if not has_inventory_opened(player) then
-        if player.gui.left["manual-inventory-sort-buttons"] then
-            player.gui.left["manual-inventory-sort-buttons"].destroy()
-        end
-    else
-        if not player.gui.left["manual-inventory-sort-buttons"] then
-            local frame = player.gui.left.add({
-                type = "frame",
-                name = "manual-inventory-sort-buttons",
-                direction = "vertical",
-				caption = {"manual-inventory-gui-sort-title"}
-			})
-			frame.add({type = "button", name = "manual-inventory-sort-player", caption = {"manual-inventory-gui-sort_player"}})
-			if player.controller_type == defines.controllers.character then
-				frame.add({type = "button", name = "manual-inventory-sort-player-trash", caption = {"manual-inventory-gui-sort_player_trash"}})
+    if player.gui.left["manual-inventory-sort-buttons"] then
+        if has_inventory_opened(player) then
+            local localised_strings = {
+                { "gui.character" },
+                { "gui-logistic.trash-slots" }
+            }
+
+            for _, item in ipairs(player.gui.left["manual-inventory-sort-buttons"].children_names) do
+                if item == "manual-inventory-sort-opened" then
+                    localised_strings[3] = player.opened.localised_name
+                end
+            end
+
+            local request_ids = player.request_translations(localised_strings)
+
+            for _, relative_gui_type in pairs(defines.relative_gui_type) do
+                local name = "manual-inventory-sort-buttons-" .. relative_gui_type
+                local anchor = { gui = relative_gui_type, position = defines.relative_gui_position.left }
+
+                if player.gui.relative[name] then
+                    player.gui.relative[name].destroy()
+                end
+
+                local frame = player.gui.relative.add({
+                    name = name,
+                    type = "frame",
+                    style = "quick_bar_window_frame",
+                    direction = "vertical",
+                    anchor = anchor
+                })
+
+                frame.add({
+                    type = "sprite-button",
+                    name = "manual-inventory-sort-player",
+                    tooltip = request_ids[1],
+                    style = "mod_gui_button",
+                    sprite = "entity/character"
+                })
+
+                if player.opened_self and player.force.character_logistic_requests then
+                    frame.add({
+                        type = "sprite-button",
+                        name = "manual-inventory-sort-player-trash",
+                        tooltip = request_ids[2],
+                        style = "mod_gui_button",
+                        sprite = "matrixdj96_trash_icon"
+                    })
+                end
+
+                if localised_strings[3] then
+                    frame.add({
+                        type = "sprite-button",
+                        name = "manual-inventory-sort-opened",
+                        tooltip = request_ids[3],
+                        style = "mod_gui_button",
+                        sprite = "entity/" .. player.opened.name
+                    })
+                end
             end
         end
-    end
 
-    if not player.gui.left["manual-inventory-sort-buttons"] then
-        if player.gui.relative["manual-inventory-sort-buttons"] then
-            player.gui.relative["manual-inventory-sort-buttons"].destroy()
-        end
+        player.gui.left["manual-inventory-sort-buttons"].destroy()
     end
 
     -- player.print(serpent.block("fix_manual_inventory_sort"))
+end
+
+player_data.translate_manual_inventory_sort = function(player, id, result)
+    for _, relative_gui_type in pairs(defines.relative_gui_type) do
+        local name = "manual-inventory-sort-buttons-" .. relative_gui_type
+
+        if player.gui.relative[name] then
+            for _, item in ipairs(player.gui.relative[name].children) do
+                if item.tooltip == tostring(id) then
+                    item.tooltip = "Sort " .. string.lower(result)
+                end
+            end
+        end
+
+        -- player.print(serpent.block("translate_manual_inventory_sort"))
+    end
 end
 
 player_data.fix_task_list = function(player, force)
