@@ -6,7 +6,7 @@ local constants = require("constants")
 events.on_init(
 	function()
 		for _, player in pairs(game.players) do
-			player_data.fix_all(player)
+			player_data.fix_all(player, true)
 		end
 	end
 )
@@ -14,7 +14,7 @@ events.on_init(
 events.on_configuration_changed(
 	function()
 		for _, player in pairs(game.players) do
-			player_data.fix_all(player)
+			player_data.fix_all(player, true)
 		end
 	end
 )
@@ -22,7 +22,7 @@ events.on_configuration_changed(
 events.register(
 	constants.player_events,
 	function(e)
-		player_data.fix_all(game.players[e.player_index])
+		player_data.fix_all(game.players[e.player_index], true)
 	end
 )
 
@@ -38,18 +38,12 @@ events.register(
 		end
 
 		global_data.tick_functions.task_list = function()
-			if player.gui.screen.tlst_tasks_window then
-				player_data.fix_task_list(player)
-			end
+			player_data.fix_task_list(player)
 			global_data.tick_functions.task_list = nil
 			-- player.print(serpent.block("task_list"))
 		end
 
-		if e.element and e.element.name == "task_maximize_button" then
-			if player.gui.screen.tlst_tasks_window then
-				player.gui.screen.tlst_tasks_window.visible = not player.gui.screen.tlst_tasks_window.visible
-			end
-		end
+		player_data.toggle_task_list(player, e.element)
 	end
 )
 

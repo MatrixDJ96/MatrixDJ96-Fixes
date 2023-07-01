@@ -17,7 +17,7 @@ local has_inventory_opened = function(player)
     end
 end
 
-function player_data.fix_manual_inventory_sort(player)
+player_data.fix_manual_inventory_sort = function(player, force)
     if not game.active_mods["manual-inventory-sort"] or not settings.player["manual-inventory-sort-buttons"] then
         return
     end
@@ -50,30 +50,39 @@ function player_data.fix_manual_inventory_sort(player)
     -- player.print(serpent.block("fix_manual_inventory_sort"))
 end
 
-function player_data.fix_task_list(player)
+player_data.fix_task_list = function(player, force)
     if not game.active_mods["TaskList"] then
         return
     end
 
     local button_flow = mod_gui.get_button_flow(player)
 
-    if not button_flow.task_maximize_button then
-        button_flow.add(
-            {
-                type = "sprite-button",
-                style = "mod_gui_button",
-                sprite = "matrixdj96_todo_list_icon",
-                name = "task_maximize_button",
-                tooltip = "Task List"
-            }
-        )
+    if force and button_flow.task_maximize_button then
+        button_flow.task_maximize_button.destroy()
+    end
 
-        -- player.print(serpent.block("fix_task_list"))
+    if not button_flow.task_maximize_button then
+        button_flow.add({
+            name = "task_maximize_button",
+            tooltip = "Task List",
+            type = "sprite-button",
+            style = "mod_gui_button",
+            sprite = "matrixdj96_task_list_icon"
+        })
+    end
+
+    -- player.print(serpent.block("fix_task_list"))
+end
+
+player_data.toggle_task_list = function(player, element)
+    if element and element.name == "task_maximize_button" and player.gui.screen.tlst_tasks_window then
+        player.gui.screen.tlst_tasks_window.visible = not player.gui.screen.tlst_tasks_window.visible
     end
 end
 
-function player_data.fix_all(player)
-    player_data.fix_manual_inventory_sort(player)
+player_data.fix_all = function(player, force)
+    player_data.fix_manual_inventory_sort(player, force)
+    player_data.fix_task_list(player, force)
 end
 
 return player_data
