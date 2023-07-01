@@ -1,9 +1,8 @@
-local events = require("__flib__.event")
 local global_data = require("scripts.global-data")
 local player_data = require("scripts.player-data")
 local constants = require("constants")
 
-events.on_init(
+script.on_init(
 	function()
 		for _, player in pairs(game.players) do
 			player_data.fix_all(player, true)
@@ -11,7 +10,7 @@ events.on_init(
 	end
 )
 
-events.on_configuration_changed(
+script.on_configuration_changed(
 	function()
 		for _, player in pairs(game.players) do
 			player_data.fix_all(player, true)
@@ -19,42 +18,44 @@ events.on_configuration_changed(
 	end
 )
 
-events.register(
-	constants.player_events,
-	function(e)
-		player_data.fix_all(game.players[e.player_index], true)
-	end
-)
-
-events.register(
-	constants.gui_events,
-	function(e)
-		local player = game.players[e.player_index]
-
-		global_data.tick_functions.manual_inventory_sort = function()
-			player_data.fix_manual_inventory_sort(player)
-			global_data.tick_functions.manual_inventory_sort = nil
-			-- player.print(serpent.block("manual_inventory_sort"))
+for i = 1, #constants.player_events do
+	script.on_event(
+		constants.player_events[i],
+		function(e)
+			player_data.fix_all(game.players[e.player_index], true)
 		end
+	)
+end
 
-		global_data.tick_functions.task_list = function()
-			player_data.fix_task_list(player)
-			global_data.tick_functions.task_list = nil
-			-- player.print(serpent.block("task_list"))
+for i = 1, #constants.gui_events do
+	script.on_event(
+		constants.gui_events[i],
+		function(e)
+			local player = game.players[e.player_index]
+
+			global_data.tick_functions.manual_inventory_sort = function()
+				player_data.fix_manual_inventory_sort(player)
+				global_data.tick_functions.manual_inventory_sort = nil
+			end
+
+			global_data.tick_functions.task_list = function()
+				player_data.fix_task_list(player)
+				global_data.tick_functions.task_list = nil
+			end
+
+			player_data.toggle_task_list(player, e.element)
 		end
+	)
+end
 
-		player_data.toggle_task_list(player, e.element)
-	end
-)
-
-events.register(
+script.on_event(
 	defines.events.on_string_translated,
 	function(e)
 		player_data.translate_manual_inventory_sort(game.players[e.player_index], e.id, e.result)
 	end
 )
 
-events.on_nth_tick(
+script.on_nth_tick(
 	1,
 	function()
 		for _, fnctn in pairs(global_data.tick_functions) do

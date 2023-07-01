@@ -8,7 +8,6 @@
 	"description": "Try to fix things of other mods",
 	"dependencies": [
 		"base >= 1.1",
-		"flib >= 0.7.0",
 		"? manual-inventory-sort",
 		"? some-luaconsole",
 		"? GUI_Unifyer",
