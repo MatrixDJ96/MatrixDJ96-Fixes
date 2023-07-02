@@ -28,8 +28,10 @@ player_data.fix_manual_inventory_sort = function(player)
         return
     end
 
+    local sort_buttons = player.gui.left["manual-inventory-sort-buttons"]
+
     -- Check if buttons has been created for the player
-    if player.gui.left["manual-inventory-sort-buttons"] then
+    if sort_buttons and sort_buttons.valid then
         -- Perform a better check on inventory
         if has_inventory_opened(player) then
             local localised_strings = {
@@ -38,10 +40,8 @@ player_data.fix_manual_inventory_sort = function(player)
             }
 
             -- Check if the player has opened a supported entity by manual-inventory-sort
-            for _, item in ipairs(player.gui.left["manual-inventory-sort-buttons"].children_names) do
-                if item == "manual-inventory-sort-opened" then
-                    localised_strings[3] = player.opened.localised_name
-                end
+            if sort_buttons["manual-inventory-sort-opened"] then
+                localised_strings[3] = player.opened.localised_name
             end
 
             -- Try to request the localised strings from the player translations
@@ -101,7 +101,7 @@ player_data.fix_manual_inventory_sort = function(player)
         end
 
         -- Destroy the buttons created by manual-inventory-sort
-        player.gui.left["manual-inventory-sort-buttons"].destroy()
+        sort_buttons.destroy()
     end
 end
 
