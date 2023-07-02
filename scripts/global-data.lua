@@ -1,5 +1,3 @@
-local global_data = {
-	tick_functions = {}
-}
+local global_data = {}
 
 return global_data

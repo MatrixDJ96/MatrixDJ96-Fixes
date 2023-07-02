@@ -33,21 +33,11 @@ for i = 1, #constants.gui_events do
 		function(e)
 			local player = game.players[ e.player_index --[[@as uint]] ]
 
-			-- Add the tick functions to perform manual-inventory-sort fixes
-			global_data.tick_functions.manual_inventory_sort = function()
-				-- Fix the manual-inventory-sort mod
-				player_data.fix_manual_inventory_sort(player)
-				-- Remove the tick function from the global_data
-				global_data.tick_functions.manual_inventory_sort = nil
-			end
+			-- Fix the manual-inventory-sort mod
+			player_data.fix_manual_inventory_sort(player)
 
-			-- Add the tick functions to perform task-list fixes
-			global_data.tick_functions.task_list = function()
-				-- Fix the task-list mod
-				player_data.fix_task_list(player)
-				-- Remove the tick function from the global_data
-				global_data.tick_functions.task_list = nil
-			end
+			-- Fix the task-list mod
+			player_data.fix_task_list(player)
 
 			-- Handle task-list button click event (if related element exists)
 			player_data.toggle_task_list(player, e.element --[[@as LuaGuiElement?]])
@@ -60,14 +50,5 @@ script.on_event(
 	function(e)
 		-- Apply the tooltip translation to manual-inventory-sort buttons
 		player_data.translate_manual_inventory_sort(game.players[e.player_index], e.id, e.result)
-	end
-)
-
-script.on_nth_tick(
-	1,
-	function()
-		for _, fnctn in pairs(global_data.tick_functions) do
-			fnctn()
-		end
 	end
 )
