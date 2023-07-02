@@ -22,8 +22,7 @@ local has_inventory_opened = function(player)
 end
 
 --- @param player LuaPlayer
---- @param force? boolean
-player_data.fix_manual_inventory_sort = function(player, force)
+player_data.fix_manual_inventory_sort = function(player)
     -- Check if the mod is enabled and the player has the setting enabled
     if not game.active_mods["manual-inventory-sort"] or not settings.player["manual-inventory-sort-buttons"] then
         return
@@ -109,7 +108,7 @@ end
 --- @param player LuaPlayer
 --- @param id uint
 --- @param result string
-player_data.translate_manual_inventory_sort = function(player, id, result)
+player_data.translate_manual_inventory_sort_tooltip = function(player, id, result)
     -- Update buttons tooltip for all types of relative GUIs
     for _, relative_gui_type in pairs(defines.relative_gui_type) do
         local name = "manual-inventory-sort-buttons-" .. relative_gui_type
@@ -129,7 +128,7 @@ end
 
 --- @param player LuaPlayer
 --- @param force? boolean
-player_data.fix_task_list = function(player, force)
+player_data.add_task_list_button = function(player, force)
     if not game.active_mods["TaskList"] then
         return
     end

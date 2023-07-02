@@ -5,7 +5,7 @@ local constants = require("constants")
 script.on_init(
 	function()
 		for _, player in pairs(game.players) do
-			player_data.fix_task_list(player, true)
+			player_data.add_task_list_button(player, true)
 		end
 	end
 )
@@ -13,7 +13,7 @@ script.on_init(
 script.on_configuration_changed(
 	function()
 		for _, player in pairs(game.players) do
-			player_data.fix_task_list(player, true)
+			player_data.add_task_list_button(player, true)
 		end
 	end
 )
@@ -22,7 +22,7 @@ for i = 1, #constants.player_events do
 	script.on_event(
 		constants.player_events[i],
 		function(e)
-			player_data.fix_task_list(game.players[ e.player_index --[[@as uint]] ], true)
+			player_data.add_task_list_button(game.players[ e.player_index --[[@as uint]] ], true)
 		end
 	)
 end
@@ -46,6 +46,6 @@ script.on_event(
 	defines.events.on_string_translated,
 	function(e)
 		-- Apply the tooltip translation to manual-inventory-sort buttons
-		player_data.translate_manual_inventory_sort(game.players[e.player_index], e.id, e.result)
+		player_data.translate_manual_inventory_sort_tooltip(game.players[e.player_index], e.id, e.result)
 	end
 )
