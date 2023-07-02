@@ -14,6 +14,9 @@ local initialize = function()
 		-- Initialize player data
 		player_data.init(player)
 
+		-- Add manual-inventory-sort buttons
+		mod_sort.add_buttons(player, true)
+
 		-- Add task-list top button
 		mod_task.add_top_button(player, true)
 
@@ -31,6 +34,9 @@ for i = 1, #constants.player_events do
 		function(e)
 			-- Get player from event data
 			local player = game.players[ e.player_index --[[@as uint]] ]
+
+			-- Add manual-inventory-sort buttons
+			mod_sort.add_buttons(player)
 
 			-- Add task-list top button
 			mod_task.add_top_button(player)
