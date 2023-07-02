@@ -16,6 +16,7 @@ mod.add_top_button = function(player, force)
         return
     end
 
+    --- @type LuaGuiElement
     local button_flow = mod_gui.get_button_flow(player)
 
     -- Destroy the task-list button if it exists
@@ -37,16 +38,22 @@ mod.add_top_button = function(player, force)
 end
 
 --- @param player LuaPlayer
---- @param element? LuaGuiElement
-mod.toggle_window = function(player, element)
+--- @param e EventData
+mod.toggle_window = function(player, e)
     -- Check if required conditions are met
     if not check_required_conditions() then
         return
     end
 
-    -- Check if the task-list button was clicked and toggle the task-list window
-    if element and element.name == "task_maximize_button" and player.gui.screen.tlst_tasks_window then
-        player.gui.screen.tlst_tasks_window.visible = not player.gui.screen.tlst_tasks_window.visible
+    -- Get the clicked element from the event data
+    local element = e.element --[[@as LuaGuiElement]]
+
+    -- Check if the task-list button is valid and if it has been clicked
+    if element and element.valid and element.name == "task_maximize_button" then
+        if player.gui.screen.tlst_tasks_window then
+            -- Toggle the task-list window visibility
+            player.gui.screen.tlst_tasks_window.visible = not player.gui.screen.tlst_tasks_window.visible
+        end
     end
 end
 

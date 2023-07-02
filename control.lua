@@ -58,7 +58,7 @@ for i = 1, #constants.gui_events do
 			mod_sort.modify_buttons(player)
 
 			-- Toggle task-list window on button click
-			mod_task.toggle_window(player, e.element --[[@as LuaGuiElement?]])
+			mod_task.toggle_window(player, e)
 		end
 	)
 end
