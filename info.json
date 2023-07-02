@@ -11,6 +11,7 @@
 		"? manual-inventory-sort",
 		"? some-luaconsole",
 		"? GUI_Unifyer",
-		"? TaskList"
+		"? TaskList",
+		"? YARM"
 	]
 }

@@ -21,6 +21,20 @@ local has_inventory_opened = function(player)
     end
 end
 
+player_data.remove_yarm_background_toggle = function(player)
+    if not game.active_mods["YARM"] or not game.active_mods["GUI_Unifyer"] then
+        return
+    end
+
+    local frame_flow = mod_gui.get_frame_flow(player)
+
+    -- Check if the YARM toggle background exists
+    if frame_flow.YARM_root.buttons.YARM_toggle_bg then
+        -- Set visibility of the YARM toggle background
+        frame_flow.YARM_root.buttons.YARM_toggle_bg.visible = false
+    end
+end
+
 --- @param player LuaPlayer
 player_data.fix_manual_inventory_sort = function(player)
     -- Check if the mod is enabled and the player has the setting enabled

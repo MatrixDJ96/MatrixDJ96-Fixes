@@ -5,6 +5,7 @@ local constants = require("constants")
 script.on_init(
 	function()
 		for _, player in pairs(game.players) do
+			player_data.remove_yarm_background_toggle(player)
 			player_data.add_task_list_button(player, true)
 		end
 	end
@@ -13,6 +14,7 @@ script.on_init(
 script.on_configuration_changed(
 	function()
 		for _, player in pairs(game.players) do
+			player_data.remove_yarm_background_toggle(player)
 			player_data.add_task_list_button(player, true)
 		end
 	end
@@ -22,7 +24,10 @@ for i = 1, #constants.player_events do
 	script.on_event(
 		constants.player_events[i],
 		function(e)
-			player_data.add_task_list_button(game.players[ e.player_index --[[@as uint]] ], true)
+			local player = game.players[ e.player_index --[[@as uint]] ]
+
+			player_data.remove_yarm_background_toggle(player)
+			player_data.add_task_list_button(player, true)
 		end
 	)
 end
@@ -32,6 +37,9 @@ for i = 1, #constants.gui_events do
 		constants.gui_events[i],
 		function(e)
 			local player = game.players[ e.player_index --[[@as uint]] ]
+
+			-- Remove YARM background toggle visibility
+			player_data.remove_yarm_background_toggle(player)
 
 			-- Fix the manual-inventory-sort mod
 			player_data.fix_manual_inventory_sort(player)
