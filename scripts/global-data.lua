@@ -7,14 +7,14 @@ end
 
 --- @param player_index uint
 --- @return TranslationTable[]
-global_data.get_all_translations = function(player_index)
+function global_data.get_all_translations(player_index)
     -- Return all player translations
     return global.players[player_index].translations
 end
 
 --- @param player_index uint
 --- @param request_id uint
-global_data.get_translation_by_request_id = function(player_index, request_id)
+function global_data.get_translation_by_request_id(player_index, request_id)
     -- Loop through all player translations
     for _, translation in pairs(global.players[player_index].translations) do
         -- Check translation request ID

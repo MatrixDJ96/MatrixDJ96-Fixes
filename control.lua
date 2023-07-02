@@ -6,7 +6,7 @@ local mod_sort = require("scripts.mods.manual-inventory-sort")
 local mod_task = require("scripts.mods.task-list")
 local mod_yarm = require("scripts.mods.yarm")
 
-local initialize = function()
+local function initialize()
 	-- Initialize global data
 	global_data.init()
 
@@ -21,7 +21,7 @@ local initialize = function()
 		mod_task.add_top_button(player, true)
 
 		-- Remove YARM background toggle
-		mod_yarm.remove_bg_toggle(player)
+		mod_yarm.remove_background_button(player)
 	end
 end
 
@@ -42,7 +42,7 @@ for i = 1, #constants.player_events do
 			mod_task.add_top_button(player)
 
 			-- Remove YARM background toggle
-			mod_yarm.remove_bg_toggle(player)
+			mod_yarm.remove_background_button(player)
 		end
 	)
 end

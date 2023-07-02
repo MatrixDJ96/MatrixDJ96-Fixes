@@ -4,7 +4,7 @@ local player_data = require("scripts.player-data")
 
 local mod = {}
 
-local check_required_conditions = function()
+local function check_required_conditions()
     return game.active_mods["TaskList"]
 end
 

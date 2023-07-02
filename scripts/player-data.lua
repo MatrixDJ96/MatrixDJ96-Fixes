@@ -1,7 +1,7 @@
 local player_data = {}
 
 --- @param player LuaPlayer
-player_data.init = function(player)
+function player_data.init(player)
     -- Initialize player translations
     global.players[player.index] = {
         translations = {
@@ -15,7 +15,7 @@ end
 --- @param player LuaPlayer
 --- @param localised_string LocalisedString
 --- @return TranslationTable
-player_data.create_translation = function(player, localised_string)
+function player_data.create_translation(player, localised_string)
     --- @class TranslationTable
     --- @field request_id uint
     --- @field translated_string string

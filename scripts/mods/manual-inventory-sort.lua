@@ -3,12 +3,12 @@ local player_data = require("scripts.player-data")
 
 local mod = {}
 
-local check_required_conditions = function()
+local function check_required_conditions()
     return game.active_mods["manual-inventory-sort"] and settings.player["manual-inventory-sort-buttons"]
 end
 
 --- @param player LuaPlayer
-local has_inventory_opened = function(player)
+local function has_inventory_opened(player)
     -- Check if the player has opened itself, the blueprint library or another player
     if player.opened_self or (player.opened_gui_type == defines.gui_type.blueprint_library) or player.opened_gui_type == (defines.gui_type.other_player) then
         return true
@@ -28,7 +28,7 @@ end
 
 --- @param translation TranslationTable
 --- @param force? boolean
-local get_tooltip = function(translation, force)
+local function get_tooltip(translation, force)
     -- Return translated string or request ID if not translated yet
     if force or translation.translated_string then
         return "Sort " .. string.lower(translation.translated_string or "")
@@ -38,7 +38,7 @@ local get_tooltip = function(translation, force)
 end
 
 --- @param player LuaPlayer
-mod.add_buttons = function(player, force)
+function mod.add_buttons(player, force)
     -- Check if required conditions are met
     if not check_required_conditions() then
         return
@@ -97,7 +97,7 @@ mod.add_buttons = function(player, force)
 end
 
 --- @param player LuaPlayer
-mod.modify_buttons = function(player)
+function mod.modify_buttons(player)
     -- Check if required conditions are met
     if not check_required_conditions() then
         return
@@ -171,7 +171,7 @@ end
 
 --- @param player LuaPlayer
 --- @param translation TranslationTable
-mod.update_button_tooltip = function(player, translation)
+function mod.update_button_tooltip(player, translation)
     -- Check if required conditions are met
     if not check_required_conditions() then
         return
