@@ -19,3 +19,14 @@ Date: 2023-07-02
     - Fixed Someone's LUA-Console strings
     - Improved Task List hooks method and icon
     - Improved Manual Inventory sort buttons
+---------------------------------------------------------------------------------------------------
+Version: 0.0.4
+Date: 2023-07-02
+  Changes:
+    - Added mod thumbnail image
+    - Removed useless tick functions
+    - Removed heavy gui event hooks
+    - Removed useless method calls
+    - Improved functions consistency
+    - Simplified access to manual-inventory-sort
+    - Added support for YARM
