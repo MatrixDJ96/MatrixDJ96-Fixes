@@ -163,11 +163,4 @@ player_data.toggle_task_list = function(player, element)
     end
 end
 
---- @param player LuaPlayer
---- @param force boolean
-player_data.fix_all = function(player, force)
-    player_data.fix_manual_inventory_sort(player, force)
-    player_data.fix_task_list(player, force)
-end
-
 return player_data
