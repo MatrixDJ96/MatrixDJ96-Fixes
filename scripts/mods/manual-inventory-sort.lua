@@ -38,8 +38,21 @@ local function get_tooltip(translation, force)
     return translation.request_id
 end
 
+function mod.remove_buttons(player)
+    -- Create the new buttons for all relative GUI types
+    for _, relative_gui_type in pairs(defines.relative_gui_type) do
+        -- Define name button based on the relative GUI type
+        local name = "manual-inventory-sort-buttons-" .. relative_gui_type
+
+        -- Destroy the old frame buttons
+        if player.gui.relative[name] then
+            player.gui.relative[name].destroy()
+        end
+    end
+end
+
 --- @param player LuaPlayer
-function mod.add_buttons(player, force)
+function mod.add_buttons(player)
     -- Check if required conditions are met
     if not check_required_conditions() then
         return
@@ -48,13 +61,13 @@ function mod.add_buttons(player, force)
     -- Create shortcut for all player translations
     local translations = global_data.get_all_translations(player.index)
 
-    -- Create the new buttons for all types of relative GUIs
+    -- Create the new buttons for supported relative GUI types
     for _, relative_gui_type in pairs(constants.relative_gui_types) do
         -- Define name button based on the relative GUI type
         local name = "manual-inventory-sort-buttons-" .. relative_gui_type
 
         -- Destroy the old frame buttons
-        if force and player.gui.relative[name] then
+        if player.gui.relative[name] then
             player.gui.relative[name].destroy()
         end
 
@@ -122,7 +135,7 @@ function mod.modify_buttons(player)
             end
         end
 
-        -- Create the new buttons for all types of relative GUIs
+        -- Create the new buttons for supported relative GUI types
         for _, relative_gui_type in pairs(constants.relative_gui_types) do
             -- Define name button based on the relative GUI type
             local name = "manual-inventory-sort-buttons-" .. relative_gui_type
@@ -178,7 +191,7 @@ function mod.update_button_tooltip(player, translation)
         return
     end
 
-    -- Update buttons tooltip for all types of relative GUIs
+    -- Update buttons tooltip for supported relative GUI types
     for _, relative_gui_type in pairs(constants.relative_gui_types) do
         local name = "manual-inventory-sort-buttons-" .. relative_gui_type
 
