@@ -42,3 +42,14 @@ Date: 2023-07-03
     - Changed functions definition type
     - Improved task-list window visibility toggle
     - Added YARM background visibility toggle
+---------------------------------------------------------------------------------------------------
+Version: 0.0.6
+Date: 2023-07-03
+  Changes:
+    - Fixed missing global player initialization
+    - Improved data stage sprite creation
+    - Added minor changes to task-list
+    - Restored support for todo-list
+    - Restored support for train-log
+    - Fixed YARM hooks on new game
+    - Improved Manual Inventory sort buttons
