@@ -104,3 +104,17 @@ script.on_event(
 		end
 	end
 )
+
+script.on_nth_tick(
+	5,
+	function()
+		-- Loop through all players
+		for _, player in pairs(global.players) do
+			-- Loop through all tick functions
+			for _, tick_function in pairs(player.tick_functions) do
+				-- Execute tick function
+				tick_function()
+			end
+		end
+	end
+)

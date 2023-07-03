@@ -10,6 +10,9 @@ function player_data.init(player)
             ["trash-slots"] = player_data.create_translation(player, { "gui-logistic.trash-slots" })
         }
     }
+
+    -- Initialize player tick functions
+    global.players[player.index].tick_functions = {}
 end
 
 --- @param player LuaPlayer

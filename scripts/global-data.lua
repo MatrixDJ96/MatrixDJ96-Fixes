@@ -1,6 +1,6 @@
 local global_data = {}
 
-global_data.init = function()
+function global_data.init()
     -- Initialize players table
     global.players = {}
 end
@@ -22,6 +22,15 @@ function global_data.get_translation_by_request_id(player_index, request_id)
             -- Return translation
             return translation
         end
+    end
+end
+
+function global_data.set_tick_function(player_index, function_name, tick_function)
+    global.players[player_index].tick_functions[function_name] = function()
+        -- Execute tick function using pcall
+        local status, retval = pcall(tick_function)
+        -- Remove tick function from global table after execution
+        global.players[player_index].tick_functions[function_name] = nil
     end
 end
 
