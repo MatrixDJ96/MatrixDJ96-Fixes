@@ -3,6 +3,10 @@ local player_data = require("scripts.player-data")
 
 local mod = {}
 
+local check_required_conditions = function()
+    return game.active_mods["manual-inventory-sort"] and settings.player["manual-inventory-sort-buttons"]
+end
+
 --- @param player LuaPlayer
 local has_inventory_opened = function(player)
     -- Check if the player has opened itself, the blueprint library or another player
@@ -35,8 +39,8 @@ end
 
 --- @param player LuaPlayer
 mod.add_buttons = function(player, force)
-    -- Check if the mod is enabled and the player has the setting enabled
-    if not game.active_mods["manual-inventory-sort"] or not settings.player["manual-inventory-sort-buttons"] then
+    -- Check if required conditions are met
+    if not check_required_conditions() then
         return
     end
 
@@ -94,8 +98,8 @@ end
 
 --- @param player LuaPlayer
 mod.modify_buttons = function(player)
-    -- Check if the mod is enabled and the player has the setting enabled
-    if not game.active_mods["manual-inventory-sort"] or not settings.player["manual-inventory-sort-buttons"] then
+    -- Check if required conditions are met
+    if not check_required_conditions() then
         return
     end
 
@@ -168,6 +172,11 @@ end
 --- @param player LuaPlayer
 --- @param translation TranslationTable
 mod.update_button_tooltip = function(player, translation)
+    -- Check if required conditions are met
+    if not check_required_conditions() then
+        return
+    end
+
     -- Update buttons tooltip for all types of relative GUIs
     for _, relative_gui_type in pairs(defines.relative_gui_type) do
         local name = "manual-inventory-sort-buttons-" .. relative_gui_type

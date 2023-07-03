@@ -4,9 +4,14 @@ local player_data = require("scripts.player-data")
 
 local mod = {}
 
+local check_required_conditions = function()
+    return game.active_mods["YARM"] and game.active_mods["GUI_Unifyer"]
+end
+
 --- @param player LuaPlayer
 mod.remove_bg_toggle = function(player)
-    if not game.active_mods["YARM"] or not game.active_mods["GUI_Unifyer"] then
+    -- Check if required conditions are met
+    if not check_required_conditions() then
         return
     end
 
