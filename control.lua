@@ -4,6 +4,7 @@ local constants = require("constants")
 
 local mod_sort = require("scripts.mods.manual-inventory-sort")
 local mod_task = require("scripts.mods.task-list")
+local mod_todo = require("scripts.mods.todo-list")
 local mod_yarm = require("scripts.mods.yarm")
 
 --- @param player LuaPlayer
@@ -12,13 +13,16 @@ local function initialize_player(player)
 	player_data.init(player)
 
 	-- Add manual-inventory-sort buttons
-		mod_sort.add_buttons(player, true)
+	mod_sort.add_buttons(player, true)
 
-		-- Add task-list top button
-		mod_task.add_top_button(player, true)
+	-- Add task-list top button
+	mod_task.add_top_button(player, true)
 
-		-- Remove YARM background toggle
-		mod_yarm.remove_background_button(player)
+	-- Update todo-list top button
+	mod_todo.add_top_button(player, true)
+
+	-- Remove YARM background toggle
+	mod_yarm.remove_background_button(player)
 end
 
 local function initialize_global()
@@ -57,11 +61,22 @@ for i = 1, #constants.gui_events do
 			-- Toggle task-list window on button click
 			mod_task.toggle_window(player, e)
 
+			-- Toggle todo-list window on button click
+			mod_todo.toggle_window(player, e)
+
 			-- Toggle YARM background on button click
 			mod_yarm.toggle_background(player, e)
 		end
 	)
 end
+
+script.on_event(
+	defines.events.on_gui_closed,
+	function(e)
+		-- Update visibility of todo-list buttons
+		mod_todo.update_top_buttons(game.players[e.player_index])
+	end
+)
 
 script.on_event(
 	defines.events.on_string_translated,
