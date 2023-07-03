@@ -32,6 +32,17 @@ local function check_required_conditions()
 end
 
 --- @param player LuaPlayer
+--- @param filter? string
+function mod.force_sites_filter(player, filter)
+    -- Check if required conditions are met
+    if not check_required_conditions() then
+        return
+    end
+
+    remote.call("YARM", "set_filter", player.index, filter or WARNINGS)
+end
+
+--- @param player LuaPlayer
 function mod.remove_background_button(player)
     -- Check if required conditions are met
     if not check_required_conditions() then
@@ -110,11 +121,11 @@ function mod.toggle_background(player, e)
 
             -- Set YARM filter using remote call
             if element.name == gui_button.warnings then
-                remote.call("YARM", "set_filter", player.index, NONE)
+                mod.force_sites_filter(player, NONE)
             elseif element.name == gui_button.all then
-                remote.call("YARM", "set_filter", player.index, WARNINGS)
+                mod.force_sites_filter(player, WARNINGS)
             elseif element.name == gui_button.none then
-                remote.call("YARM", "set_filter", player.index, ALL)
+                mod.force_sites_filter(player, ALL)
             end
 
             -- local new_filter = remote.call("YARM", "get_current_filter", player.index)

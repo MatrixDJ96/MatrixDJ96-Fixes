@@ -25,6 +25,9 @@ local function initialize_player(player)
 	-- Update train-log top button
 	mod_train.update_top_button(player)
 
+	-- Force YARM filter to init UI
+	mod_yarm.force_sites_filter(player)
+
 	-- Remove YARM background toggle
 	mod_yarm.remove_background_button(player)
 end
