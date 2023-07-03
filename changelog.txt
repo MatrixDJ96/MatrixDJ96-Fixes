@@ -53,3 +53,13 @@ Date: 2023-07-03
     - Restored support for train-log
     - Fixed YARM hooks on new game
     - Improved Manual Inventory sort buttons
+---------------------------------------------------------------------------------------------------
+Version: 0.0.7
+Date: 2023-07-03
+  Changes:
+    - Remove unnecessary imports and variables
+    - Refactored sprite cloning and updating logic
+    - Removed useless forced mods reinitialization
+    - Added migration to fix manual-inventory-sort
+    - Restored tick functions execution feature
+    - Changed and improved some comments
