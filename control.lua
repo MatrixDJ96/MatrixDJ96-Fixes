@@ -59,6 +59,9 @@ for i = 1, #constants.gui_events do
 
 			-- Toggle task-list window on button click
 			mod_task.toggle_window(player, e)
+
+			-- Toggle YARM background on button click
+			mod_yarm.toggle_background(player, e)
 		end
 	)
 end
