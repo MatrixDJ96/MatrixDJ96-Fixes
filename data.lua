@@ -19,6 +19,18 @@ local function create_sprite(name, path, prefix)
 	}
 end
 
+---@param sprite table
+---@param name string
+---@return table
+local function clone_sprite(sprite, name)
+	-- Deepcopy of sprite to allow changes
+	local cloned_sprite = table.deepcopy(sprite)
+	-- Change name to requested one
+	cloned_sprite.name = name
+
+	return cloned_sprite
+end
+
 -- Generate custom sprites
 local task_list_icon = create_sprite("task_list_icon", "icons/task_list")
 local todo_list_icon = create_sprite("todo_list_icon", "icons/todo_list")
@@ -32,21 +44,13 @@ data:extend({ task_list_icon, todo_list_icon, train_log_icon, trash_icon })
 if mods["GUI_Unifyer"] then
 	-- Check if todolist_button exists
 	if data.raw["sprite"]["todolist_button"] then
-		-- Deepcopy of todo_list_icon to allow changes
-		local guiu_todo_list_icon = table.deepcopy(todo_list_icon)
-		-- Change name to match the GUI_Unifyer's one
-		guiu_todo_list_icon.name = "todolist_button"
-		-- Update existing sprite definition
-		data:extend({ guiu_todo_list_icon })
+		-- Update existing sprite definition with new one
+		data:extend({ clone_sprite(todo_list_icon, "todolist_button") })
 	end
 
 	-- Check if trainlog_button exists
 	if data.raw["sprite"]["trainlog_button"] then
-		-- Deepcopy of todo_list_icon to allow changes
-		local guiu_train_log_icon = table.deepcopy(train_log_icon)
-		-- Change name to match the GUI_Unifyer's one
-		guiu_train_log_icon.name = "trainlog_button"
-		-- Update existing sprite definition
-		data:extend({ guiu_train_log_icon })
+		-- Update existing sprite definition with new one
+		data:extend({ clone_sprite(train_log_icon, "trainlog_button") })
 	end
 end
