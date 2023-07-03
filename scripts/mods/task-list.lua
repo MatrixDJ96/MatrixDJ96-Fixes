@@ -10,7 +10,7 @@ end
 
 --- @param player LuaPlayer
 --- @param force? boolean
-mod.add_top_button = function(player, force)
+function mod.add_top_button(player, force)
     -- Check if required conditions are met
     if not check_required_conditions() then
         return
@@ -19,13 +19,16 @@ mod.add_top_button = function(player, force)
     --- @type LuaGuiElement
     local button_flow = mod_gui.get_button_flow(player)
 
+    local task_maximize_button = button_flow.task_maximize_button
+
     -- Destroy the task-list button if it exists
-    if force and button_flow.task_maximize_button then
-        button_flow.task_maximize_button.destroy()
+    if force and task_maximize_button then
+        task_maximize_button.destroy()
+        task_maximize_button = nil
     end
 
     -- Check if task-list button already exists
-    if not button_flow.task_maximize_button then
+    if not task_maximize_button then
         -- Create the task-list button
         button_flow.add({
             name = "task_maximize_button",
@@ -39,7 +42,7 @@ end
 
 --- @param player LuaPlayer
 --- @param e EventData
-mod.toggle_window = function(player, e)
+function mod.toggle_window(player, e)
     -- Check if required conditions are met
     if not check_required_conditions() then
         return
