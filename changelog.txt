@@ -30,3 +30,15 @@ Date: 2023-07-02
     - Improved functions consistency
     - Simplified access to manual-inventory-sort
     - Added support for YARM
+---------------------------------------------------------------------------------------------------
+Version: 0.0.5
+Date: 2023-07-03
+  Changes:
+    - Improved comments and documentations
+    - Rearranged scripts to break up mod changes
+    - Implemented global translations data per player
+    - Improved manual-inventory-sort buttons
+    - Improved checks on required conditions
+    - Changed functions definition type
+    - Improved task-list window visibility toggle
+    - Added YARM background visibility toggle
