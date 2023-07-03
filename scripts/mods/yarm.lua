@@ -54,15 +54,15 @@ function mod.remove_background_button(player)
 
     local yarm_root = frame_flow.YARM_root
 
-    -- Check if element exists and it is valid
+    -- Check if YARM root exists and it is valid
     if yarm_root and yarm_root.valid then
         local buttons = yarm_root.buttons
 
-        -- Check if element exists and it is valid
+        -- Check if buttons exists and it is valid
         if buttons and buttons.valid then
             local toggle_bg = buttons.YARM_toggle_bg
 
-            -- Check if element exists and it is valid
+            -- Check if toggle_bg exists and it is valid
             if toggle_bg and toggle_bg.valid then
                 -- Remove toggle button visibility
                 toggle_bg.visible = false
