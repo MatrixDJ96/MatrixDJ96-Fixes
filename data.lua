@@ -22,10 +22,11 @@ end
 -- Generate custom sprites
 local task_list_icon = create_sprite("task_list_icon", "icons/task_list")
 local todo_list_icon = create_sprite("todo_list_icon", "icons/todo_list")
+local train_log_icon = create_sprite("train_log_icon", "icons/locomotive", "__base__")
 local trash_icon = create_sprite("trash_icon", "icons/trash")
 
 -- Add custom sprites to data
-data:extend({ task_list_icon, todo_list_icon, trash_icon })
+data:extend({ task_list_icon, todo_list_icon, train_log_icon, trash_icon })
 
 -- Check if GUI_Unifyer is installed
 if mods["GUI_Unifyer"] then
@@ -37,5 +38,15 @@ if mods["GUI_Unifyer"] then
 		guiu_todo_list_icon.name = "todolist_button"
 		-- Update existing sprite definition
 		data:extend({ guiu_todo_list_icon })
+	end
+
+	-- Check if trainlog_button exists
+	if data.raw["sprite"]["trainlog_button"] then
+		-- Deepcopy of todo_list_icon to allow changes
+		local guiu_train_log_icon = table.deepcopy(train_log_icon)
+		-- Change name to match the GUI_Unifyer's one
+		guiu_train_log_icon.name = "trainlog_button"
+		-- Update existing sprite definition
+		data:extend({ guiu_train_log_icon })
 	end
 end

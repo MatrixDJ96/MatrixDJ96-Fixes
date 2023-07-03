@@ -5,6 +5,7 @@ local constants = require("constants")
 local mod_sort = require("scripts.mods.manual-inventory-sort")
 local mod_task = require("scripts.mods.task-list")
 local mod_todo = require("scripts.mods.todo-list")
+local mod_train = require("scripts.mods.train-log")
 local mod_yarm = require("scripts.mods.yarm")
 
 --- @param player LuaPlayer
@@ -20,6 +21,9 @@ local function initialize_player(player)
 
 	-- Update todo-list top button
 	mod_todo.add_top_button(player, true)
+
+	-- Update train-log top button
+	mod_train.update_top_button(player)
 
 	-- Remove YARM background toggle
 	mod_yarm.remove_background_button(player)

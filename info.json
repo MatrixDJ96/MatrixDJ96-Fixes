@@ -10,6 +10,7 @@
 		"base >= 1.1",
 		"? manual-inventory-sort",
 		"? some-luaconsole",
+		"? train-log",
 		"? GUI_Unifyer",
 		"? TaskList",
 		"? Todo-List",
