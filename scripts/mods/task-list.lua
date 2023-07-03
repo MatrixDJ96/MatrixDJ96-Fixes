@@ -1,6 +1,4 @@
 local mod_gui = require("__core__.lualib.mod-gui")
-local global_data = require("scripts.global-data")
-local player_data = require("scripts.player-data")
 
 local mod = {}
 
