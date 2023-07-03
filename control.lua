@@ -14,13 +14,13 @@ local function initialize_player(player)
 	player_data.init(player)
 
 	-- Add manual-inventory-sort buttons
-	mod_sort.add_buttons(player, true)
+	mod_sort.add_buttons(player)
 
 	-- Add task-list top button
-	mod_task.add_top_button(player, true)
+	mod_task.add_top_button(player)
 
 	-- Update todo-list top button
-	mod_todo.add_top_button(player, true)
+	mod_todo.add_top_button(player)
 
 	-- Update train-log top button
 	mod_train.update_top_button(player)
