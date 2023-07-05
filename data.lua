@@ -31,6 +31,17 @@ local function clone_sprite(sprite, name)
 	return cloned_sprite
 end
 
+---@param name string
+---@param game_control string
+local function create_linked_input(name, game_control)
+	return {
+		type = "custom-input",
+		name = "matrixdj96_" .. name,
+		linked_game_control = game_control,
+		key_sequence = ""
+	}
+end
+
 -- Generate custom sprites
 local task_list_icon = create_sprite("task_list_icon", "icons/task_list")
 local todo_list_icon = create_sprite("todo_list_icon", "icons/todo_list")
@@ -54,3 +65,12 @@ if mods["GUI_Unifyer"] then
 		data:extend({ clone_sprite(train_log_icon, "trainlog_button") })
 	end
 end
+
+-- Generate custom inputs
+local move_up_input = create_linked_input("move_up", "move-up")
+local move_down_input = create_linked_input("move_down", "move-down")
+local move_left_input = create_linked_input("move_left", "move-left")
+local move_right_input = create_linked_input("move_right", "move-right")
+
+-- Add custom inputs to data
+data:extend({ move_up_input, move_down_input, move_left_input, move_right_input })

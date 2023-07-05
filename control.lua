@@ -2,6 +2,7 @@ local global_data = require("scripts.global-data")
 local player_data = require("scripts.player-data")
 local constants = require("constants")
 
+local mod_fuel = require("scripts.mods.auto-fueling")
 local mod_sort = require("scripts.mods.manual-inventory-sort")
 local mod_task = require("scripts.mods.task-list")
 local mod_todo = require("scripts.mods.todo-list")
@@ -91,6 +92,16 @@ script.on_event(
 		end
 	end
 )
+
+for i = 1, #constants.input_events do
+	script.on_event(
+		constants.input_events[i],
+		function(e)
+			-- Perform auto-fueling on movement keys pressed while driving
+			mod_fuel.perform_auto_fueling(game.players[ e.player_index --[[@as uint]] ])
+		end
+	)
+end
 
 script.on_nth_tick(
 	5,

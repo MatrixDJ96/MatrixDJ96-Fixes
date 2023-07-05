@@ -1,5 +1,12 @@
 local constants = {}
 
+constants.input_events = {
+	"matrixdj96_move_up",
+	"matrixdj96_move_down",
+	"matrixdj96_move_left",
+	"matrixdj96_move_right"
+}
+
 constants.gui_events = {
 	defines.events.on_gui_click,
 	defines.events.on_gui_opened
