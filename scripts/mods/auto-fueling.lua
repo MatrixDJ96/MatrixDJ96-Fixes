@@ -3,6 +3,7 @@ local player_data = require("scripts.player-data")
 local mod = {}
 
 --- @param player LuaPlayer
+--- @return boolean
 local function check_required_conditions(player)
     return player_data.get_settings(player, "matrixdj96_auto_fueling_setting")
 end

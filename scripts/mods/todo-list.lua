@@ -3,7 +3,9 @@ local player_data = require("scripts.player-data")
 
 local mod = {}
 
-local function check_required_conditions()
+--- @param player LuaPlayer
+--- @return boolean
+local function check_required_conditions(player)
     return game.active_mods["Todo-List"] and not game.active_mods["GUI_Unifyer"]
 end
 
@@ -45,7 +47,7 @@ end
 --- @param player LuaPlayer
 function mod.add_top_button(player, force)
     -- Check if required conditions are met
-    if not check_required_conditions() then
+    if not check_required_conditions(player) then
         return
     end
 
@@ -107,7 +109,7 @@ end
 --- @param elements? table<string, LuaGuiElement>
 function mod.update_top_buttons(player, elements)
     -- Check if required conditions are met
-    if not check_required_conditions() then
+    if not check_required_conditions(player) then
         return
     end
 
@@ -128,7 +130,7 @@ end
 --- @param e EventData
 function mod.toggle_window(player, e)
     -- Check if required conditions are met
-    if not check_required_conditions() then
+    if not check_required_conditions(player) then
         return
     end
 

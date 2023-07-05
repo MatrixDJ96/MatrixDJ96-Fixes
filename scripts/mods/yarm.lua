@@ -27,7 +27,9 @@ function table.has(t, value)
     return false
 end
 
-local function check_required_conditions()
+--- @param player LuaPlayer
+--- @return boolean
+local function check_required_conditions(player)
     return game.active_mods["YARM"] and game.active_mods["GUI_Unifyer"]
 end
 
@@ -35,17 +37,17 @@ end
 --- @param filter? string
 function mod.force_sites_filter(player, filter)
     -- Check if required conditions are met
-    if not check_required_conditions() then
+    if not check_required_conditions(player) then
         return
     end
 
-    remote.call("YARM", "set_filter", player.index, filter or WARNINGS)
+    remote.call("YARM", "set_filter", player.index, filter or constants.WARNINGS)
 end
 
 --- @param player LuaPlayer
 function mod.remove_background_button(player)
     -- Check if required conditions are met
-    if not check_required_conditions() then
+    if not check_required_conditions(player) then
         return
     end
 
@@ -78,7 +80,7 @@ end
 --- @param e EventData
 function mod.toggle_background(player, e)
     -- Check if required conditions are met
-    if not check_required_conditions() then
+    if not check_required_conditions(player) then
         return
     end
 
@@ -117,8 +119,6 @@ function mod.toggle_background(player, e)
                 button_flow[value].visible = element.name == value
             end
 
-            -- local old_filter = remote.call("YARM", "get_current_filter", player.index)
-
             -- Set YARM filter using remote call
             if element.name == gui_button.warnings then
                 mod.force_sites_filter(player, NONE)
@@ -127,10 +127,6 @@ function mod.toggle_background(player, e)
             elseif element.name == gui_button.none then
                 mod.force_sites_filter(player, ALL)
             end
-
-            -- local new_filter = remote.call("YARM", "get_current_filter", player.index)
-
-            -- player.print("[" .. element.name .. "] " .. old_filter .. ' -> ' .. new_filter)
         else
             if not global.players[player.index].yarm_toggle_background then
                 -- Show message about keys modifier usage

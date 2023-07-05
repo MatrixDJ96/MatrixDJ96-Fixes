@@ -11,6 +11,7 @@ local gui_button = {
 }
 
 --- @param player LuaPlayer
+--- @return boolean
 local function check_required_conditions(player)
     return game.active_mods["manual-inventory-sort"] and player_data.get_settings(player, "manual-inventory-sort-buttons")
 end

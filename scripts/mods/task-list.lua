@@ -2,7 +2,9 @@ local mod_gui = require("__core__.lualib.mod-gui")
 
 local mod = {}
 
-local function check_required_conditions()
+--- @param player LuaPlayer
+--- @return boolean
+local function check_required_conditions(player)
     return game.active_mods["TaskList"]
 end
 
@@ -10,7 +12,7 @@ end
 --- @param force? boolean
 function mod.add_top_button(player, force)
     -- Check if required conditions are met
-    if not check_required_conditions() then
+    if not check_required_conditions(player) then
         return
     end
 
@@ -42,7 +44,7 @@ end
 --- @param e EventData
 function mod.toggle_window(player, e)
     -- Check if required conditions are met
-    if not check_required_conditions() then
+    if not check_required_conditions(player) then
         return
     end
 

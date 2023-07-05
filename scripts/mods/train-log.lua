@@ -2,7 +2,9 @@ local mod_gui = require("__core__.lualib.mod-gui")
 
 local mod = {}
 
-local function check_required_conditions()
+--- @param player LuaPlayer
+--- @return boolean
+local function check_required_conditions(player)
     return game.active_mods["train-log"] and not game.active_mods["GUI_Unifyer"]
 end
 
@@ -10,7 +12,7 @@ end
 --- @param force? boolean
 function mod.update_top_button(player, force)
     -- Check if required conditions are met
-    if not check_required_conditions() then
+    if not check_required_conditions(player) then
         return
     end
 
