@@ -4,8 +4,11 @@ local constants = require("constants")
 
 local mod = {}
 
-local function check_required_conditions()
-    return game.active_mods["manual-inventory-sort"] and settings.player["manual-inventory-sort-buttons"]
+--- @param player LuaPlayer
+local function check_required_conditions(player)
+    local player_settings = settings.get_player_settings(player)
+
+    return game.active_mods["manual-inventory-sort"] and player_settings["manual-inventory-sort-buttons"].value
 end
 
 --- @param player LuaPlayer
@@ -54,7 +57,7 @@ end
 --- @param player LuaPlayer
 function mod.add_buttons(player)
     -- Check if required conditions are met
-    if not check_required_conditions() then
+    if not check_required_conditions(player) then
         return
     end
 
@@ -113,7 +116,7 @@ end
 --- @param player LuaPlayer
 function mod.modify_buttons(player)
     -- Check if required conditions are met
-    if not check_required_conditions() then
+    if not check_required_conditions(player) then
         return
     end
 
@@ -187,7 +190,7 @@ end
 --- @param translation TranslationTable
 function mod.update_button_tooltip(player, translation)
     -- Check if required conditions are met
-    if not check_required_conditions() then
+    if not check_required_conditions(player) then
         return
     end
 
