@@ -8,6 +8,7 @@ local function check_required_conditions(player)
     return player_data.get_settings(player, "matrixdj96_auto_fueling_setting")
 end
 
+--- @param player LuaPlayer
 function mod.perform_auto_fueling(player)
     -- Check if required conditions are met
     if not check_required_conditions(player) then
@@ -25,14 +26,15 @@ function mod.perform_auto_fueling(player)
 
             -- Check if fuel inventory exists and it is empty
             if fuel_inventory and fuel_inventory.is_empty() then
-                -- Define fuel items
+                --- Define fuel items
+                --- @type LuaItemStack[]
                 local fuel_items = {}
 
                 -- Get current player main inventory
                 local player_inventory = player.get_main_inventory()
 
-                -- Check if player main inventory exists and it is not empty
-                if player_inventory and not player_inventory.is_empty() then
+                -- Check if player main inventory exists, it is valid and it is not empty
+                if player_inventory and player_inventory.valid and not player_inventory.is_empty() then
                     -- Loop through all items in player inventory to find fuel
                     for x = 1, #player_inventory do
                         -- Get item from player inventory
@@ -53,12 +55,44 @@ function mod.perform_auto_fueling(player)
                 end)
 
                 for _, fuel_item in pairs(fuel_items) do
+                    -- Check if fuel item can be inserted into vehicle fuel inventory
                     if fuel_inventory.can_insert(fuel_item) then
-                        -- Insert fuel item into vehicle
-                        local count = fuel_inventory.insert(fuel_item)
+                        -- Get fuel item name
+                        local name = fuel_item.name
 
-                        -- Remove inserted items from item stack
-                        fuel_item.count = fuel_item.count - count
+                        -- Get fuel prototype localised_name
+                        local localised_name = fuel_item.prototype.localised_name
+
+                        -- Check if player inventory exists
+                        if player_inventory and player_inventory.valid then
+                            -- Insert fuel item into vehicle fuel inventory
+                            local count = fuel_inventory.insert(fuel_item)
+
+                            -- Check if fuel item has been inserted
+                            if count > 0 then
+                                -- Remove inserted fuel items from player inventory
+                                player_inventory.remove({ name = name, count = count })
+
+                                -- Get remaining fuel item count in player inventory
+                                local total_count = player_inventory.get_item_count(name)
+
+                                -- Generate flying text
+                                local flying_text = {
+                                    "",
+                                    "-" .. count .. " ",
+                                    localised_name,
+                                    " (" .. total_count .. ")"
+                                }
+
+                                -- Create flying text over player position
+                                player.create_local_flying_text({
+                                    text = flying_text,
+                                    time_to_live = 160,
+                                    color = player.color,
+                                    position = player.position
+                                })
+                            end
+                        end
 
                         -- Break loop
                         break
