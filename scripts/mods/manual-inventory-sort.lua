@@ -4,6 +4,12 @@ local constants = require("constants")
 
 local mod = {}
 
+local gui_button = {
+    ["character"] = "manual-inventory-sort-player",
+    ["trash-slots"] = "manual-inventory-sort-player-trash",
+    ["entity"] = "manual-inventory-sort-opened"
+}
+
 --- @param player LuaPlayer
 local function check_required_conditions(player)
     local player_settings = settings.get_player_settings(player)
@@ -11,21 +17,22 @@ local function check_required_conditions(player)
     return game.active_mods["manual-inventory-sort"] and player_settings["manual-inventory-sort-buttons"].value
 end
 
+--- @param relative_gui_type defines.relative_gui_type
+local function get_relative_gui_name(relative_gui_type)
+    return "manual-inventory-sort-buttons-" .. relative_gui_type
+end
+
 --- @param player LuaPlayer
 local function has_inventory_opened(player)
-    -- Check if the player has opened itself, the blueprint library or another player
-    if player.opened_self or player.opened_gui_type == defines.gui_type.other_player or player.opened_gui_type == defines.gui_type.blueprint_library then
+    -- Check if the player has opened itself
+    if player.opened_self then
         return true
     end
 
-    -- Check if the player has opened an entity
-    if player.opened_gui_type == defines.gui_type.entity then
-        for _, index in pairs(defines.inventory) do
-            -- Check if the entity has an inventory and if it is valid
-            local inventory = player.opened.get_inventory(index)
-            if inventory and inventory.valid then
-                return true
-            end
+    -- Check if the player has opened a supported GUI type
+    for _, gui_type in pairs(constants.gui_types) do
+        if player.opened_gui_type == gui_type then
+            return true
         end
     end
 end
@@ -41,11 +48,12 @@ local function get_tooltip(translation, force)
     return translation.request_id
 end
 
+--- @param player LuaPlayer
 function mod.remove_buttons(player)
     -- Create the new buttons for all relative GUI types
     for _, relative_gui_type in pairs(defines.relative_gui_type) do
         -- Define name button based on the relative GUI type
-        local name = "manual-inventory-sort-buttons-" .. relative_gui_type
+        local name = get_relative_gui_name(relative_gui_type)
 
         -- Destroy the old frame buttons
         if player.gui.relative[name] then
@@ -67,7 +75,7 @@ function mod.add_buttons(player)
     -- Create the new buttons for supported relative GUI types
     for _, relative_gui_type in pairs(constants.relative_gui_types) do
         -- Define name button based on the relative GUI type
-        local name = "manual-inventory-sort-buttons-" .. relative_gui_type
+        local name = get_relative_gui_name(relative_gui_type)
 
         -- Destroy the old frame buttons
         if player.gui.relative[name] then
@@ -84,19 +92,19 @@ function mod.add_buttons(player)
             anchor = { gui = relative_gui_type, position = defines.relative_gui_position.left }
         })
 
-        -- Add player inventory sort button
+        -- Add player character sort button
         frame.add({
             type = "sprite-button",
-            name = "manual-inventory-sort-player",
+            name = gui_button["character"],
             style = "mod_gui_button",
             sprite = "entity/character",
             visible = true
         })
 
-        -- Add player trash sort button
+        -- Add player trash-slots sort button
         frame.add({
             type = "sprite-button",
-            name = "manual-inventory-sort-player-trash",
+            name = gui_button["trash-slots"],
             tooltip = get_tooltip(translations["trash-slots"]),
             style = "mod_gui_button",
             sprite = "matrixdj96_trash_icon",
@@ -106,7 +114,7 @@ function mod.add_buttons(player)
         -- Add opened entity sort button
         frame.add({
             type = "sprite-button",
-            name = "manual-inventory-sort-opened",
+            name = gui_button["entity"],
             style = "mod_gui_button",
             visible = false
         })
@@ -120,14 +128,21 @@ function mod.modify_buttons(player)
         return
     end
 
+    -- Define if an entity is opened
+    local has_entity_opened = false
+
     -- Get the frame buttons created by manual-inventory-sort
     local sort_buttons = player.gui.left["manual-inventory-sort-buttons"]
 
+    if sort_buttons and sort_buttons.valid then
+        -- Check if manual-inventory-sort has created "opened" button
+        has_entity_opened = sort_buttons["manual-inventory-sort-opened"] ~= nil
+        -- Destroy the buttons created by manual-inventory-sort
+        sort_buttons.destroy()
+    end
+
     -- Perform a better check on inventory
     if has_inventory_opened(player) then
-        -- Check if the player has opened an entity
-        local has_entity_opened = player.opened_gui_type == defines.gui_type.entity
-
         -- Create shortcut for all player translations
         local translations = global_data.get_all_translations(player.index)
 
@@ -141,7 +156,7 @@ function mod.modify_buttons(player)
         -- Create the new buttons for supported relative GUI types
         for _, relative_gui_type in pairs(constants.relative_gui_types) do
             -- Define name button based on the relative GUI type
-            local name = "manual-inventory-sort-buttons-" .. relative_gui_type
+            local name = get_relative_gui_name(relative_gui_type)
 
             -- Get frame buttons created previously
             local frame = player.gui.relative[name]
@@ -149,9 +164,9 @@ function mod.modify_buttons(player)
             -- Check if frame buttons has been created and it is valid
             if frame and frame.valid then
                 -- Get buttons inside frame created previously
-                local character = frame["manual-inventory-sort-player"]
-                local trash_slots = frame["manual-inventory-sort-player-trash"]
-                local entity = frame["manual-inventory-sort-opened"]
+                local character = frame[gui_button["character"]]
+                local trash_slots = frame[gui_button["trash-slots"]]
+                local entity = frame[gui_button["entity"]]
 
                 if character and character.valid then
                     -- Update tooltip of character button
@@ -178,12 +193,6 @@ function mod.modify_buttons(player)
             end
         end
     end
-
-    -- Check if buttons have_wood_chest been created and it is valid
-    if sort_buttons and sort_buttons.valid then
-        -- Destroy the buttons created by manual-inventory-sort
-        sort_buttons.destroy()
-    end
 end
 
 --- @param player LuaPlayer
@@ -196,7 +205,8 @@ function mod.update_button_tooltip(player, translation)
 
     -- Update buttons tooltip for supported relative GUI types
     for _, relative_gui_type in pairs(constants.relative_gui_types) do
-        local name = "manual-inventory-sort-buttons-" .. relative_gui_type
+        -- Define name button based on the relative GUI type
+        local name = get_relative_gui_name(relative_gui_type)
 
         -- Check if buttons has been created and it is valid
         if player.gui.relative[name] and player.gui.relative.valid then

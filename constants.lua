@@ -10,6 +10,12 @@ constants.player_events = {
 	defines.events.on_player_joined_game
 }
 
+constants.gui_types = {
+	defines.gui_type.other_player,
+	defines.gui_type.blueprint_library,
+	defines.gui_type.entity
+}
+
 constants.relative_gui_types = {
 	defines.relative_gui_type.accumulator_gui,
 	defines.relative_gui_type.achievement_gui,
