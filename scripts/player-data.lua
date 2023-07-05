@@ -17,8 +17,10 @@ local function initialize_translations(player)
 end
 
 --- @param player LuaPlayer
-function player_data.init(player)
-    if not global.players[player.index] then
+--- @param force? boolean
+function player_data.init(player, force)
+    -- Check if player data exists in global
+    if force or not global.players[player.index] then
         -- Initialize player data
         global.players[player.index] = {}
     end
