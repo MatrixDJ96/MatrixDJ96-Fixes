@@ -1,35 +1,33 @@
 ---------------------------------------------------------------------------------------------------
-Version: 0.0.1
-Date: 2021-08-02
+Version: 0.0.8
+Date: 2023-07-05
   Changes:
-    - Initial version
+    - Fixed data initialization for global table
+    - Fixed manual-inventory-sort settings
+    - Fixed manual-inventory-sort buttons
+    - Improved access to user data settings
+    - Added auto fueling feature for vehicles
 ---------------------------------------------------------------------------------------------------
-Version: 0.0.2
-Date: 2022-04-18
+Version: 0.0.7
+Date: 2023-07-03
   Changes:
-    - Added support for GUI Unifier
-    - Added support for Task List
+    - Remove unnecessary imports and variables
+    - Refactored sprite cloning and updating logic
+    - Removed useless forced mods reinitialization
+    - Added migration to fix manual-inventory-sort
+    - Restored tick functions execution feature
+    - Changed and improved some comments
 ---------------------------------------------------------------------------------------------------
-Version: 0.0.3
-Date: 2023-07-02
+Version: 0.0.6
+Date: 2023-07-03
   Changes:
-    - Removed Train Log support
-    - Removed Todo List support
-    - Removed dependency to flib library
-    - Fixed Someone's LUA-Console strings
-    - Improved Task List hooks method and icon
+    - Fixed missing global player initialization
+    - Improved data stage sprite creation
+    - Added minor changes to task-list
+    - Restored support for todo-list
+    - Restored support for train-log
+    - Fixed YARM hooks on new game
     - Improved Manual Inventory sort buttons
----------------------------------------------------------------------------------------------------
-Version: 0.0.4
-Date: 2023-07-02
-  Changes:
-    - Added mod thumbnail image
-    - Removed useless tick functions
-    - Removed heavy gui event hooks
-    - Removed useless method calls
-    - Improved functions consistency
-    - Simplified access to manual-inventory-sort
-    - Added support for YARM
 ---------------------------------------------------------------------------------------------------
 Version: 0.0.5
 Date: 2023-07-03
@@ -43,32 +41,34 @@ Date: 2023-07-03
     - Improved task-list window visibility toggle
     - Added YARM background visibility toggle
 ---------------------------------------------------------------------------------------------------
-Version: 0.0.6
-Date: 2023-07-03
+Version: 0.0.4
+Date: 2023-07-02
   Changes:
-    - Fixed missing global player initialization
-    - Improved data stage sprite creation
-    - Added minor changes to task-list
-    - Restored support for todo-list
-    - Restored support for train-log
-    - Fixed YARM hooks on new game
+    - Added mod thumbnail image
+    - Removed useless tick functions
+    - Removed heavy gui event hooks
+    - Removed useless method calls
+    - Improved functions consistency
+    - Simplified access to manual-inventory-sort
+    - Added support for YARM
+---------------------------------------------------------------------------------------------------
+Version: 0.0.3
+Date: 2023-07-02
+  Changes:
+    - Removed Train Log support
+    - Removed Todo List support
+    - Removed dependency to flib library
+    - Fixed Someone's LUA-Console strings
+    - Improved Task List hooks method and icon
     - Improved Manual Inventory sort buttons
 ---------------------------------------------------------------------------------------------------
-Version: 0.0.7
-Date: 2023-07-03
+Version: 0.0.2
+Date: 2022-04-18
   Changes:
-    - Remove unnecessary imports and variables
-    - Refactored sprite cloning and updating logic
-    - Removed useless forced mods reinitialization
-    - Added migration to fix manual-inventory-sort
-    - Restored tick functions execution feature
-    - Changed and improved some comments
+    - Added support for GUI Unifier
+    - Added support for Task List
 ---------------------------------------------------------------------------------------------------
-Version: 0.0.8
-Date: 2023-07-05
+Version: 0.0.1
+Date: 2021-08-02
   Changes:
-    - Fixed data initialization for global table
-    - Fixed manual-inventory-sort settings
-    - Fixed manual-inventory-sort buttons
-    - Improved access to user data settings
-    - Added auto fueling feature for vehicles
+    - Initial version
