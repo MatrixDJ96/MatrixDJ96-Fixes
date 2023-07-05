@@ -63,3 +63,12 @@ Date: 2023-07-03
     - Added migration to fix manual-inventory-sort
     - Restored tick functions execution feature
     - Changed and improved some comments
+---------------------------------------------------------------------------------------------------
+Version: 0.0.8
+Date: 2023-07-05
+  Changes:
+    - Fixed data initialization for global table
+    - Fixed manual-inventory-sort settings
+    - Fixed manual-inventory-sort buttons
+    - Improved access to user data settings
+    - Added auto fueling feature for vehicles
