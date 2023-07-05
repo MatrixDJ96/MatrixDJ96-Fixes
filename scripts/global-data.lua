@@ -1,8 +1,11 @@
 local global_data = {}
 
-function global_data.init()
-    -- Initialize players table
-    global.players = {}
+--- @param force? boolean
+function global_data.init(force)
+    if force or not global.players then
+        -- Initialize players table
+        global.players = {}
+    end
 end
 
 --- @param player_index uint
@@ -14,6 +17,7 @@ end
 
 --- @param player_index uint
 --- @param request_id uint
+--- @return TranslationTable?
 function global_data.get_translation_by_request_id(player_index, request_id)
     -- Loop through all player translations
     for _, translation in pairs(global.players[player_index].translations) do

@@ -8,49 +8,36 @@ local mod_todo = require("scripts.mods.todo-list")
 local mod_train = require("scripts.mods.train-log")
 local mod_yarm = require("scripts.mods.yarm")
 
---- @param player LuaPlayer
-local function initialize_player(player)
-	-- Initialize player data
-	player_data.init(player)
-
-	-- Add manual-inventory-sort buttons
-	mod_sort.add_buttons(player)
-
-	-- Add task-list top button
-	mod_task.add_top_button(player)
-
-	-- Update todo-list top button
-	mod_todo.add_top_button(player)
-
-	-- Update train-log top button
-	mod_train.update_top_button(player)
-
-	-- Force YARM filter to init UI
-	mod_yarm.force_sites_filter(player)
-
-	-- Remove YARM background toggle
-	mod_yarm.remove_background_button(player)
-end
-
-local function initialize_global()
-	-- Initialize global data
-	global_data.init()
-
-	for _, player in pairs(game.players) do
-		-- Initialize player data
-		initialize_player(player)
-	end
-end
-
-script.on_init(initialize_global)
-script.on_configuration_changed(initialize_global)
+script.on_init(global_data.init)
+script.on_configuration_changed(global_data.init)
 
 for i = 1, #constants.player_events do
 	script.on_event(
 		constants.player_events[i],
 		function(e)
+			-- Get player from event data
+			local player = game.players[ e.player_index --[[@as uint]] ]
+
 			-- Initialize player data
-			initialize_player(game.players[ e.player_index --[[@as uint]] ])
+			player_data.init(player)
+
+			-- Add manual-inventory-sort buttons
+			mod_sort.add_buttons(player)
+
+			-- Add task-list top button
+			mod_task.add_top_button(player)
+
+			-- Update todo-list top button
+			mod_todo.add_top_button(player)
+
+			-- Update train-log top button
+			mod_train.update_top_button(player)
+
+			-- Force YARM filter to init UI
+			mod_yarm.force_sites_filter(player)
+
+			-- Remove YARM background toggle
+			mod_yarm.remove_background_button(player)
 		end
 	)
 end
