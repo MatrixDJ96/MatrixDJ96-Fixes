@@ -1,17 +1,14 @@
 local mod_gui = require("__core__.lualib.mod-gui")
 local global_data = require("scripts.global-data")
 local player_data = require("scripts.player-data")
+local constants = require("constants")
 
 local mod = {}
 
-local NONE = "none"
-local WARNINGS = "warnings"
-local ALL = "all"
-
 local gui_button = {
-    [NONE] = "YARM_filter_none",
-    [WARNINGS] = "YARM_filter_warnings",
-    [ALL] = "YARM_filter_all"
+    [constants.NONE] = "YARM_filter_none",
+    [constants.WARNINGS] = "YARM_filter_warnings",
+    [constants.ALL] = "YARM_filter_all"
 }
 
 --- @param t table
@@ -121,11 +118,11 @@ function mod.toggle_background(player, e)
 
             -- Set YARM filter using remote call
             if element.name == gui_button.warnings then
-                mod.force_sites_filter(player, NONE)
+                mod.force_sites_filter(player, constants.NONE)
             elseif element.name == gui_button.all then
-                mod.force_sites_filter(player, WARNINGS)
+                mod.force_sites_filter(player, constants.WARNINGS)
             elseif element.name == gui_button.none then
-                mod.force_sites_filter(player, ALL)
+                mod.force_sites_filter(player, constants.ALL)
             end
         else
             if not global.players[player.index].yarm_toggle_background then

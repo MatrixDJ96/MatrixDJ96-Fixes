@@ -1,5 +1,9 @@
 local constants = {}
 
+constants.NONE = "none"
+constants.WARNINGS = "warnings"
+constants.ALL = "all"
+
 constants.input_events = {
 	"matrixdj96_move_up",
 	"matrixdj96_move_down",
