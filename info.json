@@ -1,11 +1,11 @@
 {
 	"name": "MatrixDJ96-Fixes",
-	"version": "0.0.8",
+	"version": "0.0.9",
 	"factorio_version": "1.1",
 	"title": "MatrixDJ96: Fixes & Tweaks",
 	"author": "MatrixDJ96",
 	"homepage": "",
-	"description": "This mod tries to fix and tweak things of the other mods!",
+	"description": "This mod tries to fix and tweak things of the other mods!\n(It also addes some new QOL features on base game 😊)",
 	"dependencies": [
 		"base >= 1.1",
 		"? manual-inventory-sort",
