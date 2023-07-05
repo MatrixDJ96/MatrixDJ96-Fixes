@@ -1,4 +1,5 @@
 local mod_gui = require("__core__.lualib.mod-gui")
+local player_data = require("scripts.player-data")
 
 local mod = {}
 
@@ -10,10 +11,8 @@ end
 --- @param string string
 --- @return LocalisedString
 local function todo_translate(player, string)
-    -- Get the player settings
-    local player_settings = settings.get_player_settings(player.index)
     -- Get the translation mode setting
-    local translation_mode = player_settings["todolist-translation-mode"].value
+    local translation_mode = player_data.get_player_settings(player, "todolist-translation-mode")
 
     -- Simulate todo-list translations
     if (translation_mode.value == "quest") then

@@ -50,4 +50,15 @@ function player_data.create_translation(player, localised_string)
     }
 end
 
+--- @param player LuaPlayer
+--- @param name string
+--- @return any
+function player_data.get_settings(player, name)
+    -- Get settings for player
+    local settings = settings.get_player_settings(player)
+
+    -- Return setting value or nil
+    return settings[name] and settings[name].value or nil
+end
+
 return player_data
