@@ -1,4 +1,12 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.0.10
+Date: 2023-07-05
+  Changes:
+    - Standardized check_required_conditions
+    - Moved YARM constants to related file
+    - Improved data player initialization
+    - Added auto-fueling user feedback
+---------------------------------------------------------------------------------------------------
 Version: 0.0.9
 Date: 2023-07-05
   Changes:
