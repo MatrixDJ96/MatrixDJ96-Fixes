@@ -1,1 +1,0 @@
-require("scripts.clean-data")

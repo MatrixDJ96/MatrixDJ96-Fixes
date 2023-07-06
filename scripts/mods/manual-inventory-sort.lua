@@ -22,6 +22,66 @@ local function get_relative_gui_name(relative_gui_type)
 end
 
 --- @param player LuaPlayer
+--- @param relative_gui_type defines.relative_gui_type
+--- @param create_if_missing? boolean
+--- @return LuaGuiElement?
+local function get_gui_frame(player, relative_gui_type, create_if_missing)
+    local name = get_relative_gui_name(relative_gui_type)
+
+    --- @type LuaGuiElement?
+    local window = player.gui.relative[name .. "_window"]
+
+    if window == nil and create_if_missing then
+        -- Create sort window
+        --- @type LuaGuiElement
+        window = player.gui.relative.add({
+            name = name .. "_window",
+            type = "frame",
+            style = "quick_bar_window_frame",
+            direction = "vertical",
+            anchor = { gui = relative_gui_type, position = defines.relative_gui_position.left }
+        })
+    end
+
+    if window ~= nil then
+        --- @type LuaGuiElement?
+        local frame = window[name .. "_frame"]
+
+        if frame == nil and create_if_missing then
+            -- Create sort frame
+            --- @type LuaGuiElement
+            frame = window.add({
+                name = name .. "_frame",
+                type = "frame",
+                direction = "vertical",
+                style = "mod_gui_inside_deep_frame"
+            })
+        end
+
+        -- Return the frame
+        return frame
+    end
+
+    -- Return nil
+    return nil
+end
+
+--- @param frame LuaGuiElement?
+--- @return table<string, LuaGuiElement>
+local function get_gui_buttons(frame)
+    -- Get sort buttons inside frame (if any)
+    local character = frame ~= nil and frame[gui_button["character"]]
+    local trash_slots = frame ~= nil and frame[gui_button["trash-slots"]]
+    local entity = frame ~= nil and frame[gui_button["entity"]]
+
+    return {
+        ["character"] = character,
+        ["trash-slots"] = trash_slots,
+        ["entity"] = entity
+    }
+end
+
+--- @param player LuaPlayer
 local function has_inventory_opened(player)
     -- Check if the player has opened itself
     if player.opened_self then
@@ -58,6 +118,11 @@ function mod.remove_buttons(player)
         if player.gui.relative[name] then
             player.gui.relative[name].destroy()
         end
+
+        -- Destroy the old frame buttons 2.0
+        if player.gui.relative[name .. "_window"] then
+            player.gui.relative[name .. "_window"].destroy()
+        end
     end
 end
 
@@ -73,50 +138,45 @@ function mod.add_buttons(player)
 
     -- Create the new buttons for supported relative GUI types
     for _, relative_gui_type in pairs(constants.relative_gui_types) do
-        -- Define name button based on the relative GUI type
-        local name = get_relative_gui_name(relative_gui_type)
+        -- Get or create sort frame for player GUI type
+        local frame = get_gui_frame(player, relative_gui_type, true) --[[@as LuaGuiElement]]
 
-        -- Destroy the old frame buttons
-        if player.gui.relative[name] then
-            player.gui.relative[name].destroy()
+        -- Get sort buttons from frame
+        local buttons = get_gui_buttons(frame)
+
+        if not buttons["character"] then
+            -- Add player character sort button
+            frame.add({
+                type = "sprite-button",
+                name = gui_button["character"],
+                tooltip = get_tooltip(translations["character"]),
+                style = "mod_gui_button",
+                sprite = "entity/character",
+                visible = true
+            })
         end
 
-        --- @type LuaGuiElement
-        -- Create the new frame buttons
-        local frame = player.gui.relative.add({
-            name = name,
-            type = "frame",
-            style = "quick_bar_window_frame",
-            direction = "vertical",
-            anchor = { gui = relative_gui_type, position = defines.relative_gui_position.left }
-        })
+        if not buttons["trash-slots"] then
+            -- Add player trash-slots sort button
+            frame.add({
+                type = "sprite-button",
+                name = gui_button["trash-slots"],
+                tooltip = get_tooltip(translations["trash-slots"]),
+                style = "mod_gui_button",
+                sprite = "matrixdj96_trash_icon",
+                visible = false
+            })
+        end
 
-        -- Add player character sort button
-        frame.add({
-            type = "sprite-button",
-            name = gui_button["character"],
-            style = "mod_gui_button",
-            sprite = "entity/character",
-            visible = true
-        })
-
-        -- Add player trash-slots sort button
-        frame.add({
-            type = "sprite-button",
-            name = gui_button["trash-slots"],
-            tooltip = get_tooltip(translations["trash-slots"]),
-            style = "mod_gui_button",
-            sprite = "matrixdj96_trash_icon",
-            visible = false
-        })
-
-        -- Add opened entity sort button
-        frame.add({
-            type = "sprite-button",
-            name = gui_button["entity"],
-            style = "mod_gui_button",
-            visible = false
-        })
+        if not buttons["entity"] then
+            -- Add opened entity sort button
+            frame.add({
+                type = "sprite-button",
+                name = gui_button["entity"],
+                style = "mod_gui_button",
+                visible = false
+            })
+        end
     end
 end
 
@@ -133,7 +193,7 @@ function mod.modify_buttons(player)
     -- Get the frame buttons created by manual-inventory-sort
     local sort_buttons = player.gui.left["manual-inventory-sort-buttons"]
 
-    if sort_buttons and sort_buttons.valid then
+    if sort_buttons ~= nil then
         -- Check if manual-inventory-sort has created "opened" button
         has_entity_opened = sort_buttons["manual-inventory-sort-opened"] ~= nil
         -- Destroy the buttons created by manual-inventory-sort
@@ -154,40 +214,32 @@ function mod.modify_buttons(player)
 
         -- Create the new buttons for supported relative GUI types
         for _, relative_gui_type in pairs(constants.relative_gui_types) do
-            -- Define name button based on the relative GUI type
-            local name = get_relative_gui_name(relative_gui_type)
+            -- Get sort frame for player GUI type
+            local frame = get_gui_frame(player, relative_gui_type)
 
-            -- Get frame buttons created previously
-            local frame = player.gui.relative[name]
+            -- Get sort buttons from frame
+            local buttons = get_gui_buttons(frame)
 
-            -- Check if frame buttons has been created and it is valid
-            if frame and frame.valid then
-                -- Get buttons inside frame created previously
-                local character = frame[gui_button["character"]]
-                local trash_slots = frame[gui_button["trash-slots"]]
-                local entity = frame[gui_button["entity"]]
+            if buttons["character"] ~= nil then
+                -- Update tooltip of character button
+                buttons["character"].tooltip = get_tooltip(translations["character"])
+            end
 
-                if character and character.valid then
-                    -- Update tooltip of character button
-                    character.tooltip = get_tooltip(translations["character"])
-                end
+            if buttons["trash-slots"] ~= nil then
+                -- Update vibility and tooltip of trash-slots button
+                buttons["trash-slots"].visible = player.opened_self and player.force.character_logistic_requests
+                buttons["trash-slots"].tooltip = get_tooltip(translations["trash-slots"])
+            end
 
-                if trash_slots and trash_slots.valid then
-                    -- Update vibility and tooltip of trash-slots button
-                    trash_slots.visible = player.opened_self and player.force.character_logistic_requests
-                    trash_slots.tooltip = get_tooltip(translations["trash-slots"])
-                end
-
-                if entity and entity.valid then
-                    if has_entity_opened then
-                        -- Update vibility, tooltip and sprite of opened button
-                        entity.visible = player.opened_gui_type == defines.gui_type.entity
-                        entity.tooltip = get_tooltip(translations[player.opened.name])
-                        entity.sprite = "entity/" .. player.opened.name
-                    else
-                        -- Hide opened button
-                        entity.visible = false
-                    end
+            if buttons["entity"] ~= nil then
+                if has_entity_opened then
+                    -- Update vibility, tooltip and sprite of opened button
+                    buttons["entity"].visible = player.opened_gui_type == defines.gui_type.entity
+                    buttons["entity"].tooltip = get_tooltip(translations[player.opened.name])
+                    buttons["entity"].sprite = "entity/" .. player.opened.name
+                else
+                    -- Hide opened button
+                    buttons["entity"].visible = false
                 end
             end
         end
@@ -204,12 +256,12 @@ function mod.update_button_tooltip(player, translation)
 
     -- Update buttons tooltip for supported relative GUI types
     for _, relative_gui_type in pairs(constants.relative_gui_types) do
-        -- Define name button based on the relative GUI type
-        local name = get_relative_gui_name(relative_gui_type)
+        -- Get sort frame for player GUI type
+        local frame = get_gui_frame(player, relative_gui_type)
 
-        -- Check if buttons has been created and it is valid
-        if player.gui.relative[name] and player.gui.relative.valid then
-            for _, item in pairs(player.gui.relative[name].children) do
+        -- Check if sort frame exists
+        if frame ~= nil then
+            for _, item in pairs(frame.children) do
                 -- Find the button with the matching tooltip id
                 if item.tooltip == tostring(translation.request_id) then
                     -- Update the tooltip with the new translation
