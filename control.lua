@@ -100,12 +100,12 @@ script.on_event(
 			return
 		end
 
-		-- Create shortcut for all player translations
+		-- Get player translation from event data
 		local translation = player_data.get_translation(player, e.id)
 
 		-- Check if translation has been found
-		if translation then
-			-- Update translation
+		if translation ~= nil then
+			-- Update translation from event data
 			translation.translated_string = e.result
 
 			-- Update tooltip of manual-inventory-sort button

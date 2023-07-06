@@ -1,15 +1,18 @@
 local player_data = {}
 
 --- @param player LuaPlayer
+--- @param name string
 --- @param localised_string LocalisedString
 --- @return TranslationTable
-local function request_translation(player, localised_string)
+local function request_translation(player, name, localised_string)
     --- @class TranslationTable
-    --- @field request_id uint
-    --- @field translated_string string
+    --- @field id uint
+    --- @field name string
+    --- @field translated_string string?
     --- @field localised_string LocalisedString
     return {
-        request_id = player.request_translation(localised_string),
+        id = player.request_translation(localised_string),
+        name = name,
         translated_string = nil,
         localised_string = localised_string
     }
@@ -17,12 +20,20 @@ end
 
 --- @param player LuaPlayer
 local function initialize_translations(player)
-    -- Initialize player translations
-    global.players[player.index].translations = {
+    -- Initialize player translations table
+    global.players[player.index].translations = { ids = {}, names = {} }
+
+    local translations = {
         -- Add character and trash-slots translations
-        ["character"] = request_translation(player, { "gui.character" }),
-        ["trash-slots"] = request_translation(player, { "gui-logistic.trash-slots" })
+        request_translation(player, "character", { "gui.character" }),
+        request_translation(player, "trash-slots", { "gui-logistic.trash-slots" })
     }
+
+    for _, translation in pairs(translations) do
+        -- Add translation to player translations
+        global.players[player.index].translations.ids[translation.id] = translation
+        global.players[player.index].translations.names[translation.name] = translation
+    end
 end
 
 --- @param player LuaPlayer
@@ -56,37 +67,28 @@ end
 --- @param name string
 --- @param localised_string LocalisedString
 function player_data.set_translation(player, name, localised_string)
-    -- Check if translation exists
-    if global.players[player.index].translations[name] ~= nil then
+    -- Check if translation exists for player
+    if global.players[player.index].translations.names[name] == nil then
         -- Request new translation for player
-        global.players[player.index].translations[name] = request_translation(player, localised_string)
+        local translation = request_translation(player, name, localised_string)
+
+        -- Add translation to player translations
+        global.players[player.index].translations.ids[translation.id] = translation
+        global.players[player.index].translations.names[translation.name] = translation
     end
 end
 
 --- @param player LuaPlayer
---- @param name_id string|uint
+--- @param id_name string|uint
 --- @return TranslationTable?
-function player_data.get_translation(player, name_id)
-    if type(name_id) == "string" then
+function player_data.get_translation(player, id_name)
+    if type(id_name) == "number" then
+        -- Return translation by id
+        return global.players[player.index].translations.ids[id_name]
+    elseif type(id_name) == "string" then
         -- Return translation by name
-        return global.players[player.index].translations[name_id]
-    elseif type(name_id) == "number" then
-        -- Loop through all player translations
-        for _, translation in pairs(global.players[player.index].translations) do
-            -- Check translation request ID
-            if translation.request_id == name_id then
-                -- Return translation by request ID
-                return translation
-            end
-        end
+        return global.players[player.index].translations.names[id_name]
     end
-end
-
---- @param player LuaPlayer
---- @return TranslationTable[]
-function player_data.get_translations(player)
-    -- Return all player translations
-    return global.players[player.index].translations
 end
 
 --- @param player LuaPlayer

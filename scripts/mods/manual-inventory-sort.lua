@@ -80,6 +80,29 @@ local function get_gui_buttons(frame)
     }
 end
 
+local function get_traslations(player, has_entity_opened)
+    local translations = {
+        -- Add character and trash-slots translations
+        ["character"] = player_data.get_translation(player, "character"),
+        ["trash-slots"] = player_data.get_translation(player, "trash-slots"),
+        ["entity"] = nil
+    }
+
+    -- Check if an entity is opened and if it is valid
+    if has_entity_opened and player.opened ~= nil and player.opened.valid then
+        -- Check if translation exists for opened entity
+        if not player_data.get_translation(player, player.opened.name) then
+            -- Request the translation for the opened entity
+            player_data.set_translation(player, player.opened.name, player.opened.localised_name)
+        end
+
+        translations["entity"] = player_data.get_translation(player, player.opened.name)
+    end
+
+    return translations
+end
+
+
 --- @param player LuaPlayer
 local function has_inventory_opened(player)
     -- Check if the player has opened itself
@@ -96,14 +119,15 @@ local function has_inventory_opened(player)
 end
 
 --- @param translation TranslationTable
---- @param force? boolean
-local function get_tooltip(translation, force)
-    -- Return translated string or request ID if not translated yet
-    if force or translation.translated_string then
-        return "Sort " .. string.lower(translation.translated_string or "")
+local function get_tooltip(translation)
+    -- Check if translation is valid
+    if not translation.translated_string then
+        -- Return translation id
+        return translation.id
     end
 
-    return translation.request_id
+    -- Return translated string
+    return "Sort " .. string.lower(translation.translated_string)
 end
 
 --- @param player LuaPlayer
@@ -132,8 +156,8 @@ function mod.add_buttons(player)
         return
     end
 
-    -- Create shortcut for all player translations
-    local translations = player_data.get_translations(player)
+    -- Get translations for button tooltips
+    local translations = get_traslations(player, false)
 
     -- Create the new buttons for supported relative GUI types
     for _, relative_gui_type in pairs(constants.relative_gui_types) do
@@ -201,18 +225,10 @@ function mod.modify_buttons(player)
 
     -- Perform a better check on inventory
     if has_inventory_opened(player) then
-        -- Create shortcut for player translations
-        local translations = player_data.get_translations(player)
+        -- Get translations for button tooltips
+        local translations = get_traslations(player, has_entity_opened)
 
-        if has_entity_opened then
-            -- Check if translation exists for opened entity
-            if not translations[player.opened.name] then
-                -- Request the translation for the opened entity
-                player_data.set_translation(player, player.opened.name, player.opened.localised_name)
-            end
-        end
-
-        -- Create the new buttons for supported relative GUI types
+        -- Update sort buttons for supported relative GUI types
         for _, relative_gui_type in pairs(constants.relative_gui_types) do
             -- Get sort frame for player GUI type
             local frame = get_gui_frame(player, relative_gui_type)
@@ -235,7 +251,7 @@ function mod.modify_buttons(player)
                 if has_entity_opened then
                     -- Update vibility, tooltip and sprite of opened button
                     buttons["entity"].visible = player.opened_gui_type == defines.gui_type.entity
-                    buttons["entity"].tooltip = get_tooltip(translations[player.opened.name])
+                    buttons["entity"].tooltip = get_tooltip(translations["entity"])
                     buttons["entity"].sprite = "entity/" .. player.opened.name
                 else
                     -- Hide opened button
@@ -263,9 +279,9 @@ function mod.update_button_tooltip(player, translation)
         if frame ~= nil then
             for _, item in pairs(frame.children) do
                 -- Find the button with the matching tooltip id
-                if item.tooltip == tostring(translation.request_id) then
+                if item.tooltip == tostring(translation.id) then
                     -- Update the tooltip with the new translation
-                    item.tooltip = get_tooltip(translation, true)
+                    item.tooltip = get_tooltip(translation)
                 end
             end
         end
