@@ -19,10 +19,12 @@ script.on_event({
 	},
 	function(e)
 		-- Get player from event data
-		local player = game.players[ e.player_index --[[@as uint]] ]
+		local player = global_data.get_player(e.player_index)
 
-		-- Initialize player data
-		player_data.init(player)
+		if not (player ~= nil and player.valid) then
+			-- Skip event if player is invalid
+			return
+		end
 
 		-- Add manual-inventory-sort buttons
 		mod_sort.add_buttons(player)
@@ -50,7 +52,12 @@ script.on_event({
 	},
 	function(e)
 		-- Get player from event data
-		local player = game.players[ e.player_index --[[@as uint]] ]
+		local player = global_data.get_player(e.player_index)
+
+		if not (player ~= nil and player.valid) then
+			-- Skip event if player is invalid
+			return
+		end
 
 		-- Modify manual-inventory-sort buttons
 		mod_sort.modify_buttons(player)
@@ -69,8 +76,16 @@ script.on_event({
 script.on_event(
 	defines.events.on_gui_closed,
 	function(e)
+		-- Get player from event data
+		local player = global_data.get_player(e.player_index)
+
+		if not (player ~= nil and player.valid) then
+			-- Skip event if player is invalid
+			return
+		end
+
 		-- Update visibility of todo-list buttons
-		mod_todo.update_top_buttons(game.players[e.player_index])
+		mod_todo.update_top_buttons(player)
 	end
 )
 
@@ -78,10 +93,15 @@ script.on_event(
 	defines.events.on_string_translated,
 	function(e)
 		-- Get player from event data
-		local player = game.players[ e.player_index --[[@as uint]] ]
+		local player = global_data.get_player(e.player_index)
+
+		if not (player ~= nil and player.valid) then
+			-- Skip event if player is invalid
+			return
+		end
 
 		-- Create shortcut for all player translations
-		local translation = global_data.get_translation_by_request_id(player.index, e.id)
+		local translation = player_data.get_translation(player, e.id)
 
 		-- Check if translation has been found
 		if translation then
@@ -99,7 +119,12 @@ script.on_event(
 	--- @param e EventData.CustomInputEvent
 	function(e)
 		-- Get player from event data
-		local player = game.players[ e.player_index --[[@as uint]] ]
+		local player = global_data.get_player(e.player_index)
+
+		if not (player ~= nil and player.valid) then
+			-- Skip event if player is invalid
+			return
+		end
 
 		-- Perform auto-fueling on input event
 		mod_fuel.perform_auto_fueling(player)
@@ -113,7 +138,12 @@ script.on_event(
 	defines.events.on_player_driving_changed_state,
 	function(e)
 		-- Get player from event data
-		local player = game.players[ e.player_index --[[@as uint]] ]
+		local player = global_data.get_player(e.player_index)
+
+		if not (player ~= nil and player.valid) then
+			-- Skip event if player is invalid
+			return
+		end
 
 		-- Update train mode on driving change
 		mod_train_mode.update_manual_mode(player, e)
