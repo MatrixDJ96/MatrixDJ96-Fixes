@@ -1,4 +1,3 @@
-local global_data = require("scripts.global-data")
 local player_data = require("scripts.player-data")
 local constants = require("constants")
 
@@ -134,7 +133,7 @@ function mod.add_buttons(player)
     end
 
     -- Create shortcut for all player translations
-    local translations = global_data.get_all_translations(player.index)
+    local translations = player_data.get_translations(player)
 
     -- Create the new buttons for supported relative GUI types
     for _, relative_gui_type in pairs(constants.relative_gui_types) do
@@ -202,13 +201,14 @@ function mod.modify_buttons(player)
 
     -- Perform a better check on inventory
     if has_inventory_opened(player) then
-        -- Create shortcut for all player translations
-        local translations = global_data.get_all_translations(player.index)
+        -- Create shortcut for player translations
+        local translations = player_data.get_translations(player)
 
         if has_entity_opened then
+            -- Check if translation exists for opened entity
             if not translations[player.opened.name] then
-                -- Request the translation for the opened entity localized string
-                translations[player.opened.name] = player_data.create_translation(player, player.opened.localised_name)
+                -- Request the translation for the opened entity
+                player_data.set_translation(player, player.opened.name, player.opened.localised_name)
             end
         end
 
