@@ -130,7 +130,7 @@ script.on_event(
 		mod_auto_fueling.perform_auto_fueling(player)
 
 		-- Update train mode on input event
-		mod_train_mode.update_manual_mode(player, e)
+		mod_train_mode.update_manual_mode(player, false)
 	end
 )
 
@@ -146,7 +146,7 @@ script.on_event(
 		end
 
 		-- Update train mode on driving change
-		mod_train_mode.update_manual_mode(player, e)
+		mod_train_mode.update_manual_mode(player, true)
 	end
 )
 

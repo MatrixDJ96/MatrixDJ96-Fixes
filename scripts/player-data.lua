@@ -102,6 +102,20 @@ function player_data.set_tick_function(player, function_name, tick_function)
 end
 
 --- @param player LuaPlayer
+--- @param train LuaTrain?
+function player_data.set_train(player, train)
+    -- Add/remove train from player data
+    global.players[player.index].train = train
+end
+
+--- @param player LuaPlayer
+--- @return LuaTrain?
+function player_data.get_train(player)
+    -- Return train from player data or nil
+    return global.players[player.index].train
+end
+
+--- @param player LuaPlayer
 --- @param name string
 --- @return any
 function player_data.get_settings(player, name)
