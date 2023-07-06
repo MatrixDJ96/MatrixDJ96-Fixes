@@ -11,16 +11,6 @@ constants.input_events = {
 	"matrixdj96_move_right"
 }
 
-constants.gui_events = {
-	defines.events.on_gui_click,
-	defines.events.on_gui_opened
-}
-
-constants.player_events = {
-	defines.events.on_player_created,
-	defines.events.on_player_joined_game
-}
-
 constants.gui_types = {
 	defines.gui_type.other_player,
 	defines.gui_type.blueprint_library,

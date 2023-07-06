@@ -13,58 +13,58 @@ local mod_yarm = require("scripts.mods.yarm")
 script.on_init(global_data.init)
 script.on_configuration_changed(global_data.init)
 
-for i = 1, #constants.player_events do
-	script.on_event(
-		constants.player_events[i],
-		function(e)
-			-- Get player from event data
-			local player = game.players[ e.player_index --[[@as uint]] ]
+script.on_event({
+		defines.events.on_player_created,
+		defines.events.on_player_joined_game
+	},
+	function(e)
+		-- Get player from event data
+		local player = game.players[ e.player_index --[[@as uint]] ]
 
-			-- Initialize player data
-			player_data.init(player)
+		-- Initialize player data
+		player_data.init(player)
 
-			-- Add manual-inventory-sort buttons
-			mod_sort.add_buttons(player)
+		-- Add manual-inventory-sort buttons
+		mod_sort.add_buttons(player)
 
-			-- Add task-list top button
-			mod_task.add_top_button(player)
+		-- Add task-list top button
+		mod_task.add_top_button(player)
 
-			-- Update todo-list top button
-			mod_todo.add_top_button(player)
+		-- Update todo-list top button
+		mod_todo.add_top_button(player)
 
-			-- Update train-log top button
-			mod_train_log.update_top_button(player)
+		-- Update train-log top button
+		mod_train_log.update_top_button(player)
 
-			-- Force YARM filter to init UI
-			mod_yarm.force_sites_filter(player)
+		-- Force YARM filter to init UI
+		mod_yarm.force_sites_filter(player)
 
-			-- Remove YARM background toggle
-			mod_yarm.remove_background_button(player)
-		end
-	)
-end
+		-- Remove YARM background toggle
+		mod_yarm.remove_background_button(player)
+	end
+)
 
-for i = 1, #constants.gui_events do
-	script.on_event(
-		constants.gui_events[i],
-		function(e)
-			-- Get player from event data
-			local player = game.players[ e.player_index --[[@as uint]] ]
+script.on_event({
+		defines.events.on_gui_click,
+		defines.events.on_gui_opened
+	},
+	function(e)
+		-- Get player from event data
+		local player = game.players[ e.player_index --[[@as uint]] ]
 
-			-- Modify manual-inventory-sort buttons
-			mod_sort.modify_buttons(player)
+		-- Modify manual-inventory-sort buttons
+		mod_sort.modify_buttons(player)
 
-			-- Toggle task-list window on button click
-			mod_task.toggle_window(player, e)
+		-- Toggle task-list window on button click
+		mod_task.toggle_window(player, e)
 
-			-- Toggle todo-list window on button click
-			mod_todo.toggle_window(player, e)
+		-- Toggle todo-list window on button click
+		mod_todo.toggle_window(player, e)
 
-			-- Toggle YARM background on button click
-			mod_yarm.toggle_background(player, e)
-		end
-	)
-end
+		-- Toggle YARM background on button click
+		mod_yarm.toggle_background(player, e)
+	end
+)
 
 script.on_event(
 	defines.events.on_gui_closed,
@@ -94,21 +94,20 @@ script.on_event(
 	end
 )
 
-for i = 1, #constants.input_events do
-	script.on_event(
-		constants.input_events[i],
-		function(e)
-			-- Get player from event data
-			local player = game.players[ e.player_index --[[@as uint]] ]
+script.on_event(
+	constants.input_events,
+	--- @param e EventData.CustomInputEvent
+	function(e)
+		-- Get player from event data
+		local player = game.players[ e.player_index --[[@as uint]] ]
 
-			-- Perform auto-fueling on input event
-			mod_fuel.perform_auto_fueling(player)
+		-- Perform auto-fueling on input event
+		mod_fuel.perform_auto_fueling(player)
 
-			-- Update train mode on input event
-			mod_train_mode.update_manual_mode(player, e)
-		end
-	)
-end
+		-- Update train mode on input event
+		mod_train_mode.update_manual_mode(player, e)
+	end
+)
 
 script.on_event(
 	defines.events.on_player_driving_changed_state,
