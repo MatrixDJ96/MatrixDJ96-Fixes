@@ -2,7 +2,7 @@
 
 ## List of added QOL features:
 
-- Added **auto fueling** for vehicles (fuel will be inserted while you start driving)
+- Added **auto fueling** for vehicles (fuel will be added as you start driving)
 
 ---
 
@@ -24,7 +24,7 @@
 
 [Train Log](https://mods.factorio.com/mod/train-log)
 
-- Added top-left display icon to open interface
+- Added top-left display icon to open interface (compatible with [GUI_Unifyer](https://mods.factorio.com/mod/GUI_Unifyer))
 
 ###
 
@@ -36,7 +36,7 @@
 
 [Todo List](https://mods.factorio.com/mod/Todo-List)
 
-- Changed top-left display button with icon
+- Changed top-left display button with icon (compatible with [GUI_Unifyer](https://mods.factorio.com/mod/GUI_Unifyer))
 
 ###
 
