@@ -6,7 +6,8 @@ local mod_fuel = require("scripts.mods.auto-fueling")
 local mod_sort = require("scripts.mods.manual-inventory-sort")
 local mod_task = require("scripts.mods.task-list")
 local mod_todo = require("scripts.mods.todo-list")
-local mod_train = require("scripts.mods.train-log")
+local mod_train_log = require("scripts.mods.train-log")
+local mod_train_mode = require("scripts.mods.train-mode")
 local mod_yarm = require("scripts.mods.yarm")
 
 script.on_init(global_data.init)
@@ -32,7 +33,7 @@ for i = 1, #constants.player_events do
 			mod_todo.add_top_button(player)
 
 			-- Update train-log top button
-			mod_train.update_top_button(player)
+			mod_train_log.update_top_button(player)
 
 			-- Force YARM filter to init UI
 			mod_yarm.force_sites_filter(player)
@@ -97,11 +98,28 @@ for i = 1, #constants.input_events do
 	script.on_event(
 		constants.input_events[i],
 		function(e)
-			-- Perform auto-fueling on movement keys pressed while driving
-			mod_fuel.perform_auto_fueling(game.players[ e.player_index --[[@as uint]] ])
+			-- Get player from event data
+			local player = game.players[ e.player_index --[[@as uint]] ]
+
+			-- Perform auto-fueling on input event
+			mod_fuel.perform_auto_fueling(player)
+
+			-- Update train mode on input event
+			mod_train_mode.update_manual_mode(player, e)
 		end
 	)
 end
+
+script.on_event(
+	defines.events.on_player_driving_changed_state,
+	function(e)
+		-- Get player from event data
+		local player = game.players[ e.player_index --[[@as uint]] ]
+
+		-- Update train mode on driving change
+		mod_train_mode.update_manual_mode(player, e)
+	end
+)
 
 script.on_nth_tick(
 	5,

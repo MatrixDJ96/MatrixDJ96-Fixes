@@ -8,6 +8,7 @@
 	"description": "This mod tries to fix and tweak things of the other mods!\n(It also adds some new QOL features on base game 😊)",
 	"dependencies": [
 		"base >= 1.1",
+		"? auto_manual_mode",
 		"? manual-inventory-sort",
 		"? some-luaconsole",
 		"? train-log",
