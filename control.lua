@@ -8,6 +8,7 @@ local mod_task_list = require("scripts.mods.task-list")
 local mod_todo_list = require("scripts.mods.todo-list")
 local mod_train_log = require("scripts.mods.train-log")
 local mod_train_mode = require("scripts.mods.train-auto-manual-mode")
+local mod_train_stop = require("scripts.mods.train-manual-mode-temp-stop")
 local mod_yarm = require("scripts.mods.yarm")
 
 script.on_init(global_data.init)
@@ -147,6 +148,14 @@ script.on_event(
 
 		-- Update train mode on driving change
 		mod_train_mode.update_manual_mode(player, true)
+	end
+)
+
+script.on_event(
+	defines.events.on_train_changed_state,
+	function(e)
+		-- Update train schedule on changed state
+		mod_train_stop.update_manual_mode(e.train)
 	end
 )
 

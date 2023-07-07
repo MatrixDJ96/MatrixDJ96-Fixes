@@ -31,4 +31,9 @@ function global_data.is_mod_active(mod_name)
     return mod ~= nil
 end
 
+function global_data.get_settings(name)
+    -- Return setting value or nil
+    return settings.global and settings.global[name].value
+end
+
 return global_data
