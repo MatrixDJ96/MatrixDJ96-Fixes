@@ -27,7 +27,7 @@ end
 --- @param player LuaPlayer
 --- @return boolean
 local function check_required_conditions(player)
-    return game.active_mods["YARM"] and game.active_mods["GUI_Unifyer"]
+    return global_data.is_mod_active("YARM") and global_data.is_mod_active("GUI_Unifyer")
 end
 
 --- @param player LuaPlayer

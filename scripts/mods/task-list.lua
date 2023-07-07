@@ -1,11 +1,12 @@
 local mod_gui = require("__core__.lualib.mod-gui")
+local global_data = require("scripts.global-data")
 
 local mod = {}
 
 --- @param player LuaPlayer
 --- @return boolean
 local function check_required_conditions(player)
-    return game.active_mods["TaskList"]
+    return global_data.is_mod_active("TaskList")
 end
 
 --- @param player LuaPlayer

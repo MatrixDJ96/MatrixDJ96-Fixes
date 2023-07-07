@@ -1,3 +1,4 @@
+local global_data = require("scripts.global-data")
 local player_data = require("scripts.player-data")
 
 local mod = {}
@@ -5,7 +6,7 @@ local mod = {}
 --- @param player LuaPlayer
 --- @return boolean
 local function check_required_conditions(player)
-    return player_data.get_settings(player, "matrixdj96_auto_fueling_setting")
+    return not (global_data.is_mod_active("Fill4Me") and global_data.is_mod_active("Fill4Me-fixed")) and player_data.get_settings(player, "matrixdj96_auto_fueling_setting")
 end
 
 --- @param player LuaPlayer

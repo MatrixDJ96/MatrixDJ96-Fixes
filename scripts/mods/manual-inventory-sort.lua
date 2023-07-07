@@ -1,3 +1,4 @@
+local global_data = require("scripts.global-data")
 local player_data = require("scripts.player-data")
 local constants = require("constants")
 
@@ -12,7 +13,7 @@ local gui_button = {
 --- @param player LuaPlayer
 --- @return boolean
 local function check_required_conditions(player)
-    return game.active_mods["manual-inventory-sort"] and player_data.get_settings(player, "manual-inventory-sort-buttons")
+    return global_data.is_mod_active("manual-inventory-sort") and player_data.get_settings(player, "manual-inventory-sort-buttons")
 end
 
 --- @param relative_gui_type defines.relative_gui_type

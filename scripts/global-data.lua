@@ -25,4 +25,10 @@ function global_data.get_player(player_index)
     end
 end
 
+function global_data.is_mod_active(mod_name)
+    local mod = game.active_mods[mod_name]
+
+    return mod ~= nil
+end
+
 return global_data

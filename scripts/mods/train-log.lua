@@ -1,11 +1,12 @@
 local mod_gui = require("__core__.lualib.mod-gui")
+local global_data = require("scripts.global-data")
 
 local mod = {}
 
 --- @param player LuaPlayer
 --- @return boolean
 local function check_required_conditions(player)
-    return game.active_mods["train-log"] and not game.active_mods["GUI_Unifyer"]
+    return global_data.is_mod_active("train-log") and not global_data.is_mod_active("GUI_Unifyer")
 end
 
 --- @param player LuaPlayer
