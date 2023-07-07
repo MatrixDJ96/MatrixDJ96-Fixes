@@ -2,12 +2,12 @@ local global_data = require("scripts.global-data")
 local player_data = require("scripts.player-data")
 local constants = require("constants")
 
-local mod_fuel = require("scripts.mods.auto-fueling")
-local mod_sort = require("scripts.mods.manual-inventory-sort")
-local mod_task = require("scripts.mods.task-list")
-local mod_todo = require("scripts.mods.todo-list")
+local mod_auto_fueling = require("scripts.mods.vehicle-auto-fueling")
+local mod_manual_sort = require("scripts.mods.manual-inventory-sort")
+local mod_task_list = require("scripts.mods.task-list")
+local mod_todo_list = require("scripts.mods.todo-list")
 local mod_train_log = require("scripts.mods.train-log")
-local mod_train_mode = require("scripts.mods.train-mode")
+local mod_train_mode = require("scripts.mods.train-auto-manual-mode")
 local mod_yarm = require("scripts.mods.yarm")
 
 script.on_init(global_data.init)
@@ -27,13 +27,13 @@ script.on_event({
 		end
 
 		-- Add manual-inventory-sort buttons
-		mod_sort.add_buttons(player)
+		mod_manual_sort.add_buttons(player)
 
 		-- Add task-list top button
-		mod_task.add_top_button(player)
+		mod_task_list.add_top_button(player)
 
 		-- Update todo-list top button
-		mod_todo.add_top_button(player)
+		mod_todo_list.add_top_button(player)
 
 		-- Update train-log top button
 		mod_train_log.update_top_button(player)
@@ -60,13 +60,13 @@ script.on_event({
 		end
 
 		-- Modify manual-inventory-sort buttons
-		mod_sort.modify_buttons(player)
+		mod_manual_sort.modify_buttons(player)
 
 		-- Toggle task-list window on button click
-		mod_task.toggle_window(player, e)
+		mod_task_list.toggle_window(player, e)
 
 		-- Toggle todo-list window on button click
-		mod_todo.toggle_window(player, e)
+		mod_todo_list.toggle_window(player, e)
 
 		-- Toggle YARM background on button click
 		mod_yarm.toggle_background(player, e)
@@ -85,7 +85,7 @@ script.on_event(
 		end
 
 		-- Update visibility of todo-list buttons
-		mod_todo.update_top_buttons(player)
+		mod_todo_list.update_top_buttons(player)
 	end
 )
 
@@ -109,7 +109,7 @@ script.on_event(
 			translation.translated_string = e.result
 
 			-- Update tooltip of manual-inventory-sort button
-			mod_sort.update_button_tooltip(player, translation)
+			mod_manual_sort.update_button_tooltip(player, translation)
 		end
 	end
 )
@@ -127,7 +127,7 @@ script.on_event(
 		end
 
 		-- Perform auto-fueling on input event
-		mod_fuel.perform_auto_fueling(player)
+		mod_auto_fueling.perform_auto_fueling(player)
 
 		-- Update train mode on input event
 		mod_train_mode.update_manual_mode(player, e)
