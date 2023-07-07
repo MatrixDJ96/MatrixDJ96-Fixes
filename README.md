@@ -2,7 +2,15 @@
 
 ## List of added QOL features:
 
-- Added **auto fueling** for vehicles (fuel will be added as you start driving)
+_These ones can be turned on or off in mod settings_
+
+- Added **auto fueling** for vehicles as you start driving (similar to [Fill4Me](https://mods.factorio.com/mod/Fill4Me)/[Fill4Me fixed](https://mods.factorio.com/mod/Fill4Me-fixed))
+- Added **auto manual mode** for trains as you start driving (similar to [Auto Manual Mode](https://mods.factorio.com/mod/auto_manual_mode))
+- Added **manual mode** for trains when arriving at a temporary stop (similar to [Trains Switch to Manual at Temporary Stops](https://mods.factorio.com/mod/manual-trains-at-temp-stops))
+
+###
+
+_Mods marked as similar are detected and assigned with higher priority to avoid conflict issues_
 
 ---
 
@@ -40,7 +48,7 @@
 
 ###
 
-[YARM](https://mods.factorio.com/mod/YARM) + [GUI_Unifyer](https://mods.factorio.com/mod/GUI_Unifyer)
+[YARM](https://mods.factorio.com/mod/YARM) (require [GUI_Unifyer](https://mods.factorio.com/mod/GUI_Unifyer))
 
 - Changed background toggle by using the modifier key and clicking on top-left buttons
 - Fixed and removed left buttons visibility on new game
