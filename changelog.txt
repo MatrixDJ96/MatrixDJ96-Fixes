@@ -1,4 +1,18 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.0.13
+Date: 2023-07-12
+  Changes:
+    - Added enhanced entity build feature
+    - Modified data stage initialization
+    - Improved control stage initialization
+    - Cleaned constants table from useless vars
+    - Moved scripts to mods and tweaks folders
+    - Fixed and improved manual-inventory-sort
+    - Fixed trains-manual-mode-temp-stop settings
+    - Renamed settings names for consistency
+    - Improved comments and documentations
+
+---------------------------------------------------------------------------------------------------
 Version: 0.0.12
 Date: 2023-07-07
   Changes:
