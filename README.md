@@ -4,9 +4,24 @@
 
 _These ones can be turned on or off in mod settings_
 
-- Added **auto fueling** for vehicles as you start driving (similar to [Fill4Me](https://mods.factorio.com/mod/Fill4Me)/[Fill4Me fixed](https://mods.factorio.com/mod/Fill4Me-fixed))
-- Added **auto manual mode** for trains as you start driving (similar to [Auto Manual Mode](https://mods.factorio.com/mod/auto_manual_mode))
-- Added **manual mode** for trains when arriving at a temporary stop (similar to [Trains Switch to Manual at Temporary Stops](https://mods.factorio.com/mod/manual-trains-at-temp-stops))
+- **Enhanced entity build**: improve placement of an entity over another marked for deconstruction
+
+![enhanced-entity-build](https://raw.github.com/MatrixDJ96/MatrixDJ96-Fixes/master/imgs/enhanced-entity-build.gif)
+
+- **Trains auto manual mode**: set manual mode to a train as you start driving it
+  - Similar to [Auto Manual Mode](https://mods.factorio.com/mod/auto_manual_mode)
+
+![trains-auto-manual-mode](https://raw.github.com/MatrixDJ96/MatrixDJ96-Fixes/master/imgs/trains-auto-manual-mode.gif)
+
+- **Trains manual mode at temporary stop**: set manual mode to a train when it arrives at a temporary stop
+  - Similar to [Trains Switch to Manual at Temporary Stops](https://mods.factorio.com/mod/manual-trains-at-temp-stops)
+
+![trains-manual-mode-temp-stop](https://raw.github.com/MatrixDJ96/MatrixDJ96-Fixes/master/imgs/trains-manual-mode-temp-stop.gif)
+
+- **Vehicle auto fueling**: automatically add (slower) fuel to a vehicle as you start driving it
+  - Similar to [Fill4Me](https://mods.factorio.com/mod/Fill4Me)/[Fill4Me fixed](https://mods.factorio.com/mod/Fill4Me-fixed)
+
+![vehicle-auto-fueling](https://raw.github.com/MatrixDJ96/MatrixDJ96-Fixes/master/imgs/vehicle-auto-fueling.gif)
 
 ###
 
