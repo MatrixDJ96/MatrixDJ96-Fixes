@@ -5,17 +5,11 @@ local constants = require("constants")
 
 local mod = {}
 
-local gui_button = {
-    [constants.NONE] = "YARM_filter_none",
-    [constants.WARNINGS] = "YARM_filter_warnings",
-    [constants.ALL] = "YARM_filter_all"
-}
-
---- @param t table
+--- @param table table
 --- @param value any
 --- @return boolean
-function table.has(t, value)
-    for _, v in pairs(t) do
+local function contains(table, value)
+    for _, v in pairs(table) do
         if v == value then
             return true
         end
@@ -41,6 +35,7 @@ function mod.force_sites_filter(player, filter)
     remote.call("YARM", "set_filter", player.index, filter or constants.WARNINGS)
 end
 
+--- Remove YARM background toggle
 --- @param player LuaPlayer
 function mod.remove_background_button(player)
     -- Check if required conditions are met
@@ -73,6 +68,7 @@ function mod.remove_background_button(player)
     end
 end
 
+--- Toggle YARM background
 --- @param player LuaPlayer
 --- @param e EventData
 function mod.toggle_background(player, e)
@@ -90,7 +86,7 @@ function mod.toggle_background(player, e)
     local shift = e.shift --[[@as boolean]]
 
     -- Check if one of YARM buttons was clicked
-    if element and element.valid and table.has(gui_button, element.name) then
+    if element and element.valid and contains(constants.yarm_buttons, element.name) then
         -- Check if any modifier key is pressed
         if alt or control or shift then
             --- @type LuaGuiElement
@@ -112,16 +108,16 @@ function mod.toggle_background(player, e)
             end
 
             -- Set YARM buttons visibility
-            for _, value in pairs(gui_button) do
+            for _, value in pairs(constants.yarm_buttons) do
                 button_flow[value].visible = element.name == value
             end
 
             -- Set YARM filter using remote call
-            if element.name == gui_button.warnings then
+            if element.name == constants.yarm_buttons.warnings then
                 mod.force_sites_filter(player, constants.NONE)
-            elseif element.name == gui_button.all then
+            elseif element.name == constants.yarm_buttons.all then
                 mod.force_sites_filter(player, constants.WARNINGS)
-            elseif element.name == gui_button.none then
+            elseif element.name == constants.yarm_buttons.none then
                 mod.force_sites_filter(player, constants.ALL)
             end
         else
@@ -134,5 +130,13 @@ function mod.toggle_background(player, e)
         end
     end
 end
+
+-- Define events that will be handled
+mod.events = {
+    [defines.events.on_gui_click] = mod.toggle_background,
+    [defines.events.on_gui_opened] = mod.toggle_background,
+    [defines.events.on_player_created] = mod.force_sites_filter,
+    [defines.events.on_player_joined_game] = mod.remove_background_button,
+}
 
 return mod

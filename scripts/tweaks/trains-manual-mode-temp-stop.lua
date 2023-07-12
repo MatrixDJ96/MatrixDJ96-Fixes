@@ -1,19 +1,28 @@
+local mod_gui = require("__core__.lualib.mod-gui")
 local global_data = require("scripts.global-data")
+local player_data = require("scripts.player-data")
+local constants = require("constants")
 
 local mod = {}
 
 --- @return boolean
-local function check_required_conditions()
-    return not global_data.is_mod_active("manual-trains-at-temp-stops")
+local function check_required_conditions(player)
+    return not global_data.is_mod_active("manual-trains-at-temp-stops") and
+        global_data.get_settings("matrixdj96_train_manual_mode_temp_stop_setting")
 end
 
 
---- @param train LuaTrain
-function mod.update_manual_mode(train)
+--- Update train manual mode
+--- @param player LuaPlayer
+--- @param e EventData
+function mod.update_manual_mode(player, e)
     -- Check if required conditions are met
-    if not check_required_conditions() then
+    if not check_required_conditions(player) then
         return
     end
+
+    -- Get train from event data
+    local train = e.train --[[@as LuaTrain]]
 
     if train ~= nil and train.valid then
         -- Get schedule from train
@@ -51,5 +60,10 @@ function mod.update_manual_mode(train)
         end
     end
 end
+
+-- Define events that will be handled
+mod.events = {
+    [defines.events.on_train_changed_state] = mod.update_manual_mode
+}
 
 return mod

@@ -1,5 +1,7 @@
 local mod_gui = require("__core__.lualib.mod-gui")
 local global_data = require("scripts.global-data")
+local player_data = require("scripts.player-data")
+local constants = require("constants")
 
 local mod = {}
 
@@ -9,6 +11,7 @@ local function check_required_conditions(player)
     return global_data.is_mod_active("TaskList")
 end
 
+--- Add task-list top button
 --- @param player LuaPlayer
 --- @param force? boolean
 function mod.add_top_button(player, force)
@@ -41,6 +44,7 @@ function mod.add_top_button(player, force)
     end
 end
 
+--- Toggle task-list window
 --- @param player LuaPlayer
 --- @param e EventData
 function mod.toggle_window(player, e)
@@ -60,5 +64,12 @@ function mod.toggle_window(player, e)
         end
     end
 end
+
+-- Define events that will be handled
+mod.events = {
+    [defines.events.on_gui_click] = mod.toggle_window,
+    [defines.events.on_gui_opened] = mod.toggle_window,
+    [defines.events.on_player_joined_game] = mod.add_top_button
+}
 
 return mod

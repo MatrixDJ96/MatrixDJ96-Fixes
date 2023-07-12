@@ -33,12 +33,12 @@ end
 
 ---@param name string
 ---@param game_control string
-local function create_linked_input(name, game_control)
+local function create_input(name, game_control, key_sequence)
 	return {
 		type = "custom-input",
 		name = "matrixdj96_" .. name,
+		key_sequence = key_sequence or "",
 		linked_game_control = game_control,
-		key_sequence = ""
 	}
 end
 
@@ -67,10 +67,10 @@ if mods["GUI_Unifyer"] then
 end
 
 -- Generate custom inputs
-local move_up_input = create_linked_input("move_up", "move-up")
-local move_down_input = create_linked_input("move_down", "move-down")
-local move_left_input = create_linked_input("move_left", "move-left")
-local move_right_input = create_linked_input("move_right", "move-right")
+local move_up_input = create_input("move_up", "move-up")
+local move_down_input = create_input("move_down", "move-down")
+local move_left_input = create_input("move_left", "move-left")
+local move_right_input = create_input("move_right", "move-right")
 
 -- Add custom inputs to data
 data:extend({ move_up_input, move_down_input, move_left_input, move_right_input })

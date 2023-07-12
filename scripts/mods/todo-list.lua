@@ -1,6 +1,7 @@
 local mod_gui = require("__core__.lualib.mod-gui")
 local global_data = require("scripts.global-data")
 local player_data = require("scripts.player-data")
+local constants = require("constants")
 
 local mod = {}
 
@@ -45,6 +46,7 @@ local function get_todo_elements(player)
     }
 end
 
+--- Add todo-list top button
 --- @param player LuaPlayer
 function mod.add_top_button(player, force)
     -- Check if required conditions are met
@@ -106,9 +108,10 @@ function mod.add_top_button(player, force)
     end
 end
 
+--- Update visibility of todo-list button
 --- @param player LuaPlayer
 --- @param elements? table<string, LuaGuiElement>
-function mod.update_top_buttons(player, elements)
+function mod.update_top_button(player, elements)
     -- Check if required conditions are met
     if not check_required_conditions(player) then
         return
@@ -127,6 +130,7 @@ function mod.update_top_buttons(player, elements)
     elements.todo_maximize_button.caption = ""
 end
 
+--- Toggle todo-list window
 --- @param player LuaPlayer
 --- @param e EventData
 function mod.toggle_window(player, e)
@@ -169,10 +173,18 @@ function mod.toggle_window(player, e)
                 end
             end
 
-            -- Update visibility of todo-list buttons
-            mod.update_top_buttons(player, elements)
+            -- Update visibility of todo-list button
+            mod.update_top_button(player, elements)
         end
     end
 end
+
+-- Define events that will be handled
+mod.events = {
+    [defines.events.on_gui_click] = mod.toggle_window,
+    [defines.events.on_gui_opened] = mod.toggle_window,
+    [defines.events.on_gui_closed] = mod.update_top_button,
+    [defines.events.on_player_joined_game] = mod.add_top_button,
+}
 
 return mod

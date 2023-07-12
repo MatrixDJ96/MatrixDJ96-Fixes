@@ -25,15 +25,19 @@ function global_data.get_player(player_index)
     end
 end
 
+--- @param mod_name string
+--- @return boolean
 function global_data.is_mod_active(mod_name)
     local mod = game.active_mods[mod_name]
 
     return mod ~= nil
 end
 
+--- @param name string
+--- @return any
 function global_data.get_settings(name)
     -- Return setting value or nil
-    return settings.global and settings.global[name].value
+    return settings.global[name].value or nil
 end
 
 return global_data

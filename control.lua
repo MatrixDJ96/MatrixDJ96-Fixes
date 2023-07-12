@@ -2,162 +2,58 @@ local global_data = require("scripts.global-data")
 local player_data = require("scripts.player-data")
 local constants = require("constants")
 
-local mod_auto_fueling = require("scripts.mods.vehicle-auto-fueling")
-local mod_manual_sort = require("scripts.mods.manual-inventory-sort")
-local mod_task_list = require("scripts.mods.task-list")
-local mod_todo_list = require("scripts.mods.todo-list")
-local mod_train_log = require("scripts.mods.train-log")
-local mod_train_mode = require("scripts.mods.train-auto-manual-mode")
-local mod_train_stop = require("scripts.mods.train-manual-mode-temp-stop")
-local mod_yarm = require("scripts.mods.yarm")
+local mods = {
+	require("scripts.mods.manual-inventory-sort"),
+	require("scripts.mods.task-list"),
+	require("scripts.mods.todo-list"),
+	require("scripts.mods.train-log"),
+	require("scripts.mods.yarm"),
+	require("scripts.tweaks.trains-auto-manual-mode"),
+	require("scripts.tweaks.trains-manual-mode-temp-stop"),
+	require("scripts.tweaks.vehicle-auto-fueling")
+}
+
+local events = {}
 
 script.on_init(global_data.init)
 script.on_configuration_changed(global_data.init)
 
-script.on_event({
-		defines.events.on_player_created,
-		defines.events.on_player_joined_game
-	},
-	function(e)
-		-- Get player from event data
-		local player = global_data.get_player(e.player_index)
+-- Loop through all mods
+for _, mod in pairs(mods) do
+	mod.events = mod.events or {}
 
-		if not (player ~= nil and player.valid) then
-			-- Skip event if player is invalid
+	-- Loop through all defined events in mod
+	for event_name, event_function in pairs(mod.events) do
+		events[event_name] = events[event_name] or {}
+
+		-- Add event function to events table
+		table.insert(events[event_name], event_function)
+	end
+end
+
+-- Loop through all events
+for event_name, event_functions in pairs(events) do
+	-- Add event handler for event name
+	script.on_event(event_name, function(e)
+		-- Get player index from event data
+		local player_index = e.player_index --[[@as uint?]]
+
+		-- Get player from game script data
+		local player = player_index and global_data.get_player(player_index)
+
+		-- Check if player_index exists and player is valid
+		if player_index and not (player ~= nil and player.valid) then
+			-- Skip event
 			return
 		end
 
-		-- Add manual-inventory-sort buttons
-		mod_manual_sort.add_buttons(player)
-
-		-- Add task-list top button
-		mod_task_list.add_top_button(player)
-
-		-- Update todo-list top button
-		mod_todo_list.add_top_button(player)
-
-		-- Update train-log top button
-		mod_train_log.update_top_button(player)
-
-		-- Force YARM filter to init UI
-		mod_yarm.force_sites_filter(player)
-
-		-- Remove YARM background toggle
-		mod_yarm.remove_background_button(player)
-	end
-)
-
-script.on_event({
-		defines.events.on_gui_click,
-		defines.events.on_gui_opened
-	},
-	function(e)
-		-- Get player from event data
-		local player = global_data.get_player(e.player_index)
-
-		if not (player ~= nil and player.valid) then
-			-- Skip event if player is invalid
-			return
+		-- Loop through all event functions
+		for _, event_function in pairs(event_functions) do
+			-- Execute event function
+			event_function(player, e)
 		end
-
-		-- Modify manual-inventory-sort buttons
-		mod_manual_sort.modify_buttons(player)
-
-		-- Toggle task-list window on button click
-		mod_task_list.toggle_window(player, e)
-
-		-- Toggle todo-list window on button click
-		mod_todo_list.toggle_window(player, e)
-
-		-- Toggle YARM background on button click
-		mod_yarm.toggle_background(player, e)
-	end
-)
-
-script.on_event(
-	defines.events.on_gui_closed,
-	function(e)
-		-- Get player from event data
-		local player = global_data.get_player(e.player_index)
-
-		if not (player ~= nil and player.valid) then
-			-- Skip event if player is invalid
-			return
-		end
-
-		-- Update visibility of todo-list buttons
-		mod_todo_list.update_top_buttons(player)
-	end
-)
-
-script.on_event(
-	defines.events.on_string_translated,
-	function(e)
-		-- Get player from event data
-		local player = global_data.get_player(e.player_index)
-
-		if not (player ~= nil and player.valid) then
-			-- Skip event if player is invalid
-			return
-		end
-
-		-- Get player translation from event data
-		local translation = player_data.get_translation(player, e.id)
-
-		-- Check if translation has been found
-		if translation ~= nil then
-			-- Update translation from event data
-			translation.translated_string = e.result
-
-			-- Update tooltip of manual-inventory-sort button
-			mod_manual_sort.update_button_tooltip(player, translation)
-		end
-	end
-)
-
-script.on_event(
-	constants.input_events,
-	--- @param e EventData.CustomInputEvent
-	function(e)
-		-- Get player from event data
-		local player = global_data.get_player(e.player_index)
-
-		if not (player ~= nil and player.valid) then
-			-- Skip event if player is invalid
-			return
-		end
-
-		-- Perform auto-fueling on input event
-		mod_auto_fueling.perform_auto_fueling(player)
-
-		-- Update train mode on input event
-		mod_train_mode.update_manual_mode(player, false)
-	end
-)
-
-script.on_event(
-	defines.events.on_player_driving_changed_state,
-	function(e)
-		-- Get player from event data
-		local player = global_data.get_player(e.player_index)
-
-		if not (player ~= nil and player.valid) then
-			-- Skip event if player is invalid
-			return
-		end
-
-		-- Update train mode on driving change
-		mod_train_mode.update_manual_mode(player, true)
-	end
-)
-
-script.on_event(
-	defines.events.on_train_changed_state,
-	function(e)
-		-- Update train schedule on changed state
-		mod_train_stop.update_manual_mode(e.train)
-	end
-)
+	end)
+end
 
 script.on_nth_tick(
 	5,

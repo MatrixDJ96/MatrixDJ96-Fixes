@@ -1,5 +1,7 @@
 local mod_gui = require("__core__.lualib.mod-gui")
 local global_data = require("scripts.global-data")
+local player_data = require("scripts.player-data")
+local constants = require("constants")
 
 local mod = {}
 
@@ -9,9 +11,9 @@ local function check_required_conditions(player)
     return global_data.is_mod_active("train-log") and not global_data.is_mod_active("GUI_Unifyer")
 end
 
+--- Update train-log top button
 --- @param player LuaPlayer
---- @param force? boolean
-function mod.update_top_button(player, force)
+function mod.update_top_button(player)
     -- Check if required conditions are met
     if not check_required_conditions(player) then
         return
@@ -28,5 +30,10 @@ function mod.update_top_button(player, force)
         train_log.sprite = "matrixdj96_train_log_icon"
     end
 end
+
+-- Define events that will be handled
+mod.events = {
+    [defines.events.on_player_joined_game] = mod.update_top_button,
+}
 
 return mod
