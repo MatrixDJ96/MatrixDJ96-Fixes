@@ -50,7 +50,7 @@ local function perform_auto_fueling(player, e)
             local fuel_items = {}
 
             -- Check if player main inventory exists and it is not empty
-            if player_inventory ~= nil and player_inventory.is_empty() then
+            if player_inventory ~= nil and not player_inventory.is_empty() then
                 -- Loop through all items in player inventory to find fuel
                 for x = 1, #player_inventory do
                     -- Get item from player inventory
