@@ -1,4 +1,15 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.0.14
+Date: 2023-07-14
+  Changes:
+    - Fixed a lot of bugs
+    - Cleaned duplicated code
+    - Improved YARM mod hooking
+    - Improved data stage initialization
+    - Fixed and improved control events
+    - Added mod init/clean on config changed
+    - Added game speed manager with hotkeys
+---------------------------------------------------------------------------------------------------
 Version: 0.0.13
 Date: 2023-07-12
   Changes:
@@ -11,7 +22,6 @@ Date: 2023-07-12
     - Fixed trains-manual-mode-temp-stop settings
     - Renamed settings names for consistency
     - Improved comments and documentations
-
 ---------------------------------------------------------------------------------------------------
 Version: 0.0.12
 Date: 2023-07-07
