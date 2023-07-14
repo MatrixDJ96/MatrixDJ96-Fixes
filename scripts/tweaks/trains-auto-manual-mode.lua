@@ -82,7 +82,7 @@ mod.events = {
     [defines.events.on_player_driving_changed_state] = update_manual_mode
 }
 
-for _, value in pairs(constants.input_events) do
+for _, value in pairs(constants.movement_events) do
     mod.events[value] = update_manual_mode
 end
 

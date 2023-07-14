@@ -5,6 +5,7 @@ MODS = {
     require("scripts.mods.train-log"),
     require("scripts.mods.yarm"),
     require("scripts.tweaks.enhanced-entity-build"),
+    require("scripts.tweaks.game-speed-manager"),
     require("scripts.tweaks.trains-auto-manual-mode"),
     require("scripts.tweaks.trains-manual-mode-temp-stop"),
     require("scripts.tweaks.vehicle-auto-fueling")

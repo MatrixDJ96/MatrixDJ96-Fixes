@@ -33,12 +33,13 @@ end
 
 ---@param name string
 ---@param game_control string
-local function create_input(name, game_control, key_sequence)
+local function create_input(name, game_control, key_sequence, alternative_key_sequence)
 	return {
 		type = "custom-input",
 		name = "matrixdj96_" .. name,
-		key_sequence = key_sequence or "",
 		linked_game_control = game_control,
+		key_sequence = key_sequence or "",
+		alternative_key_sequence = alternative_key_sequence or ""
 	}
 end
 
@@ -94,6 +95,13 @@ table.insert(custom_inputs, create_input("move_up", "move-up"))
 table.insert(custom_inputs, create_input("move_down", "move-down"))
 table.insert(custom_inputs, create_input("move_left", "move-left"))
 table.insert(custom_inputs, create_input("move_right", "move-right"))
+
+table.insert(custom_inputs, create_input("speed_up", "", "ALT + PLUS", "ALT + KP_PLUS"))
+table.insert(custom_inputs, create_input("speed_down", "", "ALT + MINUS", "ALT + KP_MINUS"))
+
+for i = 1, 9 do
+	table.insert(custom_inputs, create_input("speed_" .. i, "", "ALT + " .. i, "ALT + KP_" .. i))
+end
 
 -- Add custom sprites to data
 data:extend(custom_sprites)

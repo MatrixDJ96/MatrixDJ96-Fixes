@@ -26,7 +26,7 @@ local function perform_auto_fueling(player, e)
     local input_name = e.input_name --[[@as string]]
 
     -- Check if input event is a supported inputs
-    if not utils.contains(constants.input_events, input_name) then
+    if not utils.contains(constants.movement_events, input_name) then
         return
     end
 
@@ -118,7 +118,7 @@ end
 -- Define events that will be handled
 mod.events = {}
 
-for _, value in pairs(constants.input_events) do
+for _, value in pairs(constants.movement_events) do
     mod.events[value] = perform_auto_fueling
 end
 

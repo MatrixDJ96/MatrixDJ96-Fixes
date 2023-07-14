@@ -35,11 +35,25 @@ constants.dummy_todo_buttons = {
 	[constants.minimize] = "dummy_" .. constants.todo_buttons[constants.minimize]
 }
 
-constants.input_events = {
+constants.movement_events = {
 	"matrixdj96_move_up",
 	"matrixdj96_move_down",
 	"matrixdj96_move_left",
 	"matrixdj96_move_right"
+}
+
+constants.speed_events = {
+	"matrixdj96_speed_up",
+	"matrixdj96_speed_down",
+	"matrixdj96_speed_1",
+	"matrixdj96_speed_2",
+	"matrixdj96_speed_3",
+	"matrixdj96_speed_4",
+	"matrixdj96_speed_5",
+	"matrixdj96_speed_6",
+	"matrixdj96_speed_7",
+	"matrixdj96_speed_8",
+	"matrixdj96_speed_9"
 }
 
 constants.gui_types = {
