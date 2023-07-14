@@ -45,22 +45,45 @@ end
 --- @param player LuaPlayer
 --- @param force? boolean
 function player_data.init(player, force)
+    -- Define initialized variable
+    local initialized = false
+
     -- Check if player data exists in global
     if force or not global.players[player.index] then
         -- Initialize player data
         global.players[player.index] = {}
+        -- Set initialized to true
+        initialized = true
     end
 
     -- Check if all required keys exists
     if not global.players[player.index].translations then
         -- Initialize player translations
         initialize_translations(player)
+        -- Set initialized to true
+        initialized = true
     end
 
     if not global.players[player.index].tick_functions then
         -- Initialize player tick functions
         initialize_tick_functions(player)
+        -- Set initialized to true
+        initialized = true
     end
+
+    return initialized
+end
+
+--- @param player LuaPlayer
+--- @return boolean
+function player_data.get_update(player)
+    return global.players[player.index].update
+end
+
+--- @param player LuaPlayer
+--- @param update? boolean
+function player_data.set_update(player, update)
+    global.players[player.index].update = update
 end
 
 --- @param player LuaPlayer

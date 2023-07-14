@@ -12,14 +12,15 @@ function global_data.init(e)
 
     -- Check if event exists and there are mod changes
     if e ~= nil and utils.size(e.mod_changes) > 0 then
+        -- Loop through all players in global
         for index, _ in pairs(global.players) do
+            -- Get player from game data
             local player = game.get_player(index)
 
+            -- Check if player exists
             if player ~= nil then
-                for _, mod in pairs(MODS) do
-                    -- Call mod init function
-                    mod.init(player, true)
-                end
+                -- Set player update flag
+                player_data.set_update(player, true)
             end
         end
     end
@@ -33,7 +34,25 @@ function global_data.get_player(player_index)
 
     if player ~= nil then
         -- Initialize player data
-        player_data.init(player)
+        if player_data.init(player) then
+            -- Loop through all mods
+            for _, mod in pairs(MODS) do
+                -- Call mod init function
+                mod.init(player)
+            end
+        else
+            -- Check for update
+            if player_data.get_update(player) then
+                -- Loop through all mods
+                for _, mod in pairs(MODS) do
+                    -- Call mod init function
+                    mod.init(player, true)
+                end
+
+                -- Remove update flag
+                player_data.set_update(player)
+            end
+        end
 
         -- Return player
         return player
