@@ -15,7 +15,7 @@ end
 --- Update train manual mode
 --- @param player LuaPlayer
 --- @param e EventData
-function mod.update_manual_mode(player, e)
+local function update_manual_mode(player, e)
     -- Check if required conditions are met
     if not check_required_conditions(player) then
         return
@@ -31,25 +31,23 @@ function mod.update_manual_mode(player, e)
 
     -- Check if event is on_player_driving_changed_state
     if e.name ~= defines.events.on_player_driving_changed_state then
-        -- Check if player is in vehicle
-        if vehicle ~= nil and vehicle.valid then
+        -- Check if player is a train
+        if vehicle ~= nil and vehicle.train ~= nil then
             local train = vehicle.train --[[@as LuaTrain]]
-            -- Check if vehicle is a train
-            if train ~= nil and train.valid then
-                -- Check if train is in manual mode
-                if not train.manual_mode then
-                    -- Add train to player data
-                    player_data.set_train(player, train)
-                    -- Set train to manual mode
-                    train.manual_mode = true
 
-                    -- Create flying text over player position
-                    player.create_local_flying_text({
-                        text = { "tooltip.matrixdj96_set_train_manual_mode" },
-                        position = player.position,
-                        color = player.color,
-                    })
-                end
+            -- Check if train is in manual mode
+            if not train.manual_mode then
+                -- Add train to player data
+                player_data.set_train(player, train)
+                -- Set train to manual mode
+                train.manual_mode = true
+
+                -- Create flying text over player position
+                player.create_local_flying_text({
+                    text = { "tooltip.matrixdj96_set_train_manual_mode" },
+                    position = player.position,
+                    color = player.color,
+                })
             end
         end
     else
@@ -60,17 +58,20 @@ function mod.update_manual_mode(player, e)
 
             -- Check if train with manual mode exists
             if train ~= nil and train.valid then
-                -- Restore train manual mode
-                train.manual_mode = false
+                if train.manual_mode then
+                    -- Restore train manual mode
+                    train.manual_mode = false
+
+                    -- Create flying text over player position
+                    player.create_local_flying_text({
+                        text = { "tooltip.matrixdj96_restore_train_auto_mode" },
+                        position = player.position,
+                        color = player.color,
+                    })
+                end
+
                 -- Remove train from player data
                 player_data.set_train(player, nil)
-
-                -- Create flying text over player position
-                player.create_local_flying_text({
-                    text = { "tooltip.matrixdj96_restore_train_auto_mode" },
-                    position = player.position,
-                    color = player.color,
-                })
             end
         end
     end
@@ -78,11 +79,11 @@ end
 
 -- Define events that will be handled
 mod.events = {
-    [defines.events.on_player_driving_changed_state] = mod.update_manual_mode
+    [defines.events.on_player_driving_changed_state] = update_manual_mode
 }
 
 for _, value in pairs(constants.input_events) do
-    mod.events[value] = mod.update_manual_mode
+    mod.events[value] = update_manual_mode
 end
 
 return mod

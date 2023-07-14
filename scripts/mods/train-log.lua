@@ -13,7 +13,7 @@ end
 
 --- Update train-log top button
 --- @param player LuaPlayer
-function mod.update_top_button(player)
+local function update_top_button(player)
     -- Check if required conditions are met
     if not check_required_conditions(player) then
         return
@@ -24,16 +24,40 @@ function mod.update_top_button(player)
 
     local train_log = button_flow.train_log
 
-    -- Check if the button exists and it is valid
-    if train_log and train_log.valid then
+    -- Create the train-log button
+    if train_log == nil then
+        button_flow.add({
+            name = "train_log",
+            tooltip = "Train Log",
+            type = "sprite-button",
+            style = "mod_gui_button",
+            sprite = "matrixdj96_train_log_icon"
+        })
+    end
+
+    -- Update the train-log button
+    if train_log ~= nil then
+        -- Set the button style and sprite
         train_log.style = "mod_gui_button"
         train_log.sprite = "matrixdj96_train_log_icon"
     end
 end
 
+--- @param player LuaPlayer
+--- @param force? boolean
+function mod.init(player, force)
+    -- Check if required conditions are met
+    if not check_required_conditions(player) then
+        return
+    end
+
+    -- Add the train-log top button
+    update_top_button(player)
+end
+
 -- Define events that will be handled
 mod.events = {
-    [defines.events.on_player_joined_game] = mod.update_top_button,
+    [defines.events.on_player_joined_game] = defines.events.on_player_created
 }
 
 return mod

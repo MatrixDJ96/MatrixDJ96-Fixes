@@ -1,19 +1,38 @@
 local constants = {}
 
-constants.NONE = "none"
-constants.WARNINGS = "warnings"
-constants.ALL = "all"
+constants.none = "none"
+constants.warnings = "warnings"
+constants.all = "all"
+
+constants.character = "character"
+constants.trash_slots = "trash-slots"
+constants.entity = "entity"
+
+constants.maximize = "maximize"
+constants.minimize = "minimize"
 
 constants.yarm_buttons = {
-	[constants.NONE] = "YARM_filter_none",
-	[constants.WARNINGS] = "YARM_filter_warnings",
-	[constants.ALL] = "YARM_filter_all"
+	[constants.none] = "YARM_filter_none",
+	[constants.warnings] = "YARM_filter_warnings",
+	[constants.all] = "YARM_filter_all"
 }
 
+constants.sort_frame = "manual-inventory-sort-buttons"
+
 constants.sort_buttons = {
-	["character"] = "manual-inventory-sort-player",
-	["trash-slots"] = "manual-inventory-sort-player-trash",
-	["entity"] = "manual-inventory-sort-opened"
+	[constants.character] = "manual-inventory-sort-player",
+	[constants.trash_slots] = "manual-inventory-sort-player-trash",
+	[constants.entity] = "manual-inventory-sort-opened"
+}
+
+constants.todo_buttons = {
+	[constants.maximize] = "todo_maximize_button",
+	[constants.minimize] = "todo_minimize_button"
+}
+
+constants.dummy_todo_buttons = {
+	[constants.maximize] = "dummy_" .. constants.todo_buttons[constants.maximize],
+	[constants.minimize] = "dummy_" .. constants.todo_buttons[constants.minimize]
 }
 
 constants.input_events = {

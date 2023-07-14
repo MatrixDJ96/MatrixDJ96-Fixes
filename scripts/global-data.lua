@@ -1,12 +1,27 @@
 local player_data = require("scripts.player-data")
+local utils = require("scripts.utils")
 
 local global_data = {}
 
---- @param force? boolean
-function global_data.init(force)
-    if force or not global.players then
+--- @param e? ConfigurationChangedData
+function global_data.init(e)
+    if not global.players then
         -- Initialize players table
         global.players = {}
+    end
+
+    -- Check if event exists and there are mod changes
+    if e ~= nil and utils.size(e.mod_changes) > 0 then
+        for index, _ in pairs(global.players) do
+            local player = game.get_player(index)
+
+            if player ~= nil then
+                for _, mod in pairs(MODS) do
+                    -- Call mod init function
+                    mod.init(player, true)
+                end
+            end
+        end
     end
 end
 

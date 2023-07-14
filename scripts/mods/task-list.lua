@@ -14,7 +14,7 @@ end
 --- Add task-list top button
 --- @param player LuaPlayer
 --- @param force? boolean
-function mod.add_top_button(player, force)
+local function add_top_button(player, force)
     -- Check if required conditions are met
     if not check_required_conditions(player) then
         return
@@ -47,7 +47,7 @@ end
 --- Toggle task-list window
 --- @param player LuaPlayer
 --- @param e EventData
-function mod.toggle_window(player, e)
+local function toggle_window(player, e)
     -- Check if required conditions are met
     if not check_required_conditions(player) then
         return
@@ -56,8 +56,8 @@ function mod.toggle_window(player, e)
     -- Get the clicked element from the event data
     local element = e.element --[[@as LuaGuiElement]]
 
-    -- Check if the task-list button is valid and if it has been clicked
-    if element and element.valid and element.name == "task_maximize_button" then
+    -- Check if the clicked element is the task-list button
+    if element ~= nil and element.valid and element.name == "task_maximize_button" then
         if player.gui.screen.tlst_tasks_window then
             -- Toggle the task-list window visibility
             player.gui.screen.tlst_tasks_window.visible = not player.gui.screen.tlst_tasks_window.visible
@@ -65,11 +65,22 @@ function mod.toggle_window(player, e)
     end
 end
 
+--- Initialize task-list mod
+--- @param player LuaPlayer
+--- @param force? boolean
+function mod.init(player, force)
+    -- Check if required conditions are met
+    if not check_required_conditions(player) then
+        return
+    end
+
+    -- Add task-list top button
+    add_top_button(player, force)
+end
+
 -- Define events that will be handled
 mod.events = {
-    [defines.events.on_gui_click] = mod.toggle_window,
-    [defines.events.on_gui_opened] = mod.toggle_window,
-    [defines.events.on_player_joined_game] = mod.add_top_button
+    [defines.events.on_gui_click] = toggle_window
 }
 
 return mod

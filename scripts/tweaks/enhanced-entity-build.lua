@@ -13,7 +13,7 @@ end
 --- Improve placement of an entity over another
 --- @param player LuaPlayer
 --- @param e EventData
-function mod.improve_placement(player, e)
+local function improve_placement(player, e)
     -- Check if required conditions are met
     if not check_required_conditions(player) then
         return
@@ -22,8 +22,8 @@ function mod.improve_placement(player, e)
     -- Get entity from event data
     local created_entity = e.created_entity --[[@as LuaEntity]]
 
-    -- Check if entity exists, it is valid and it is a enity-ghost
-    if created_entity ~= nil and created_entity.valid and created_entity.type == "entity-ghost" then
+    -- Check if entity exists and it is a enity-ghost
+    if created_entity ~= nil and created_entity.type == "entity-ghost" then
         -- Get data from entity
         local name = created_entity.ghost_name
         local position = created_entity.position
@@ -49,7 +49,7 @@ end
 
 -- Define events that will be handled
 mod.events = {
-    [defines.events.on_built_entity] = mod.improve_placement
+    [defines.events.on_built_entity] = improve_placement
 }
 
 return mod

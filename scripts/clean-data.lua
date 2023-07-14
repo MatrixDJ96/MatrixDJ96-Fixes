@@ -1,6 +1,8 @@
-local mod_manual_sort = require("scripts.mods.manual-inventory-sort")
+require("scripts.mod-data")
 
 for _, player in pairs(game.players) do
-    -- Remove invalid sort buttons
-    mod_manual_sort.remove_buttons(player)
+    for _, mod in pairs(MODS) do
+        -- Execute cleaning
+        mod.clean(player)
+    end
 end

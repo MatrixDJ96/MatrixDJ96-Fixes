@@ -11,11 +11,10 @@ local function check_required_conditions(player)
         global_data.get_settings("matrixdj96_train_manual_mode_temp_stop_setting")
 end
 
-
 --- Update train manual mode
 --- @param player LuaPlayer
 --- @param e EventData
-function mod.update_manual_mode(player, e)
+local function update_manual_mode(player, e)
     -- Check if required conditions are met
     if not check_required_conditions(player) then
         return
@@ -24,7 +23,8 @@ function mod.update_manual_mode(player, e)
     -- Get train from event data
     local train = e.train --[[@as LuaTrain]]
 
-    if train ~= nil and train.valid then
+    -- Check if train exists
+    if train ~= nil then
         -- Get schedule from train
         local schedule = train.schedule
 
@@ -63,7 +63,7 @@ end
 
 -- Define events that will be handled
 mod.events = {
-    [defines.events.on_train_changed_state] = mod.update_manual_mode
+    [defines.events.on_train_changed_state] = update_manual_mode
 }
 
 return mod

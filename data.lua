@@ -42,35 +42,61 @@ local function create_input(name, game_control, key_sequence)
 	}
 end
 
--- Generate custom sprites
-local task_list_icon = create_sprite("task_list_icon", "icons/task_list")
-local todo_list_icon = create_sprite("todo_list_icon", "icons/todo_list")
-local train_log_icon = create_sprite("train_log_icon", "icons/locomotive", "__base__")
-local trash_icon = create_sprite("trash_icon", "icons/trash")
+local custom_sprites = {}
+local custom_inputs = {}
 
--- Add custom sprites to data
-data:extend({ task_list_icon, todo_list_icon, train_log_icon, trash_icon })
+if mods["manual-inventory-sort"] then
+	-- Generate custom sprite for manual-inventory-sort
+	table.insert(custom_sprites, create_sprite("trash_icon", "icons/trash"))
+end
 
--- Check if GUI_Unifyer is installed
-if mods["GUI_Unifyer"] then
-	-- Check if todolist_button exists
-	if data.raw["sprite"]["todolist_button"] then
+if mods["train-log"] then
+	-- Generate custom sprite for train-log
+	table.insert(custom_sprites, create_sprite("train_log_icon", "icons/locomotive", "__base__"))
+
+	if mods["GUI_Unifyer"] then
 		-- Update existing sprite definition with new one
-		data:extend({ clone_sprite(todo_list_icon, "todolist_button") })
-	end
-
-	-- Check if trainlog_button exists
-	if data.raw["sprite"]["trainlog_button"] then
-		-- Update existing sprite definition with new one
-		data:extend({ clone_sprite(train_log_icon, "trainlog_button") })
+		data:extend({ clone_sprite(custom_sprites[#custom_sprites], "trainlog_button") })
 	end
 end
 
+if mods["TaskList"] then
+	-- Generate custom sprite for TaskList
+	table.insert(custom_sprites, create_sprite("task_list_icon", "icons/task_list"))
+end
+
+if mods["Todo-List"] then
+	-- Generate custom sprite form Todo-List
+	table.insert(custom_sprites, create_sprite("todo_list_icon", "icons/todo_list"))
+
+	if mods["GUI_Unifyer"] then
+		-- Update existing sprite definition with new one
+		data:extend({ clone_sprite(custom_sprites[#custom_sprites], "todolist_button") })
+	end
+end
+
+if mods["YARM"] and not mods["GUI_Unifyer"] then
+	-- Generate custom sprite for YARM
+	local yarm_icon = create_sprite(
+		"yarm_icon",
+		"resource-monitor",
+		"__YARM__"
+	)
+
+	yarm_icon.width = 32
+	yarm_icon.height = 32
+
+	table.insert(custom_sprites, yarm_icon)
+end
+
 -- Generate custom inputs
-local move_up_input = create_input("move_up", "move-up")
-local move_down_input = create_input("move_down", "move-down")
-local move_left_input = create_input("move_left", "move-left")
-local move_right_input = create_input("move_right", "move-right")
+table.insert(custom_inputs, create_input("move_up", "move-up"))
+table.insert(custom_inputs, create_input("move_down", "move-down"))
+table.insert(custom_inputs, create_input("move_left", "move-left"))
+table.insert(custom_inputs, create_input("move_right", "move-right"))
+
+-- Add custom sprites to data
+data:extend(custom_sprites)
 
 -- Add custom inputs to data
-data:extend({ move_up_input, move_down_input, move_left_input, move_right_input })
+data:extend(custom_inputs)
