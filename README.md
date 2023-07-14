@@ -23,6 +23,8 @@ _These ones can be turned on or off in mod settings_
 
 ![vehicle-auto-fueling](https://raw.github.com/MatrixDJ96/MatrixDJ96-Fixes/master/imgs/vehicle-auto-fueling.gif)
 
+- **Game speed manager**: control game speed using ALT + NUMBER (set speed to number) or ALT + PLUS/MINUS (increase/decrease speed)
+
 ###
 
 _Mods marked as similar are detected and assigned with higher priority to avoid conflict issues_
@@ -45,25 +47,25 @@ _Mods marked as similar are detected and assigned with higher priority to avoid 
 
 ###
 
-[Train Log](https://mods.factorio.com/mod/train-log)
+[Train Log](https://mods.factorio.com/mod/train-log) (compatible with [GUI_Unifyer](https://mods.factorio.com/mod/GUI_Unifyer))
 
-- Added top-left display icon to open interface (compatible with [GUI_Unifyer](https://mods.factorio.com/mod/GUI_Unifyer))
+- Added top-left icon to open interface
 
 ###
 
 [Task List](https://mods.factorio.com/mod/TaskList)
 
-- Added top-left display icon to open interface
+- Added top-left icon to open interface
 
 ###
 
-[Todo List](https://mods.factorio.com/mod/Todo-List)
+[Todo List](https://mods.factorio.com/mod/Todo-List) (compatible with [GUI_Unifyer](https://mods.factorio.com/mod/GUI_Unifyer))
 
-- Changed top-left display button with icon (compatible with [GUI_Unifyer](https://mods.factorio.com/mod/GUI_Unifyer))
+- Changed top-left button with new icon
 
 ###
 
-[YARM](https://mods.factorio.com/mod/YARM) (require [GUI_Unifyer](https://mods.factorio.com/mod/GUI_Unifyer))
+[YARM](https://mods.factorio.com/mod/YARM) (compatible with [GUI_Unifyer](https://mods.factorio.com/mod/GUI_Unifyer))
 
-- Changed background toggle by using the modifier key and clicking on top-left buttons
-- Fixed and removed left buttons visibility on new game
+- Removed left buttons and moved on top-left to change sites visibility
+- Added background toggle by using the modifier key and clicking on top-left buttons
