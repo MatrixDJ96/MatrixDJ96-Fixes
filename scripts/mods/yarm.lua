@@ -32,6 +32,8 @@ local function force_sites_filter(player, filter)
     end
 
     remote.call("YARM", "set_filter", player.index, filter or constants.warnings)
+
+    player.print("yarm: force_sites_filter(" .. (filter or constants.warnings) .. ")")
 end
 
 --- @param player LuaPlayer
@@ -88,6 +90,8 @@ local function add_top_button(player, force)
             button_flow[name].visible = current_filter == filter
         end
     end
+
+    player.print("yarm: add_top_button(" .. (force and "true" or "false") .. ")")
 end
 
 --- Hide YARM left buttons
@@ -113,6 +117,8 @@ local function hide_left_buttons(player)
             buttons.visible = false
         end
     end
+
+    player.print("yarm: hide_left_buttons")
 end
 
 --- Toggle YARM background
@@ -170,6 +176,8 @@ local function toggle_background(player, e)
                     force_sites_filter(player, constants.warnings)
                 end
             end
+
+            player.print("yarm: toggle_background(true)")
         else
             if not global_data.is_mod_active("GUI_Unifyer") then
                 -- Get current YARM filter for the player
@@ -199,6 +207,8 @@ local function toggle_background(player, e)
                 -- Set flag to show this message only once
                 global.players[player.index].yarm_toggle_background = true
             end
+
+            player.print("yarm: toggle_background(false)")
         end
     end
 end
@@ -212,6 +222,8 @@ function mod.init(player, force)
         return
     end
 
+    player.print("yarm: init(" .. (force and "true" or "false") .. ") - start ")
+
     -- Force YARM filter to warnings
     force_sites_filter(player)
 
@@ -220,6 +232,8 @@ function mod.init(player, force)
 
     -- Add YARM top button
     add_top_button(player, force)
+
+    player.print("yarm: init(" .. (force and "true" or "false") .. ") - end")
 end
 
 -- Define events that will be handled

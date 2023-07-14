@@ -42,6 +42,8 @@ local function add_top_button(player, force)
             sprite = "matrixdj96_task_list_icon"
         })
     end
+
+    player.print("task-list: add_top_button(" .. (force and "true" or "false") .. ")")
 end
 
 --- Toggle task-list window
@@ -61,6 +63,8 @@ local function toggle_window(player, e)
         if player.gui.screen.tlst_tasks_window then
             -- Toggle the task-list window visibility
             player.gui.screen.tlst_tasks_window.visible = not player.gui.screen.tlst_tasks_window.visible
+
+            player.print("task-list: toggle_window")
         end
     end
 end
@@ -74,8 +78,12 @@ function mod.init(player, force)
         return
     end
 
+    player.print("task-list: init(" .. (force and "true" or "false") .. ") - start")
+
     -- Add task-list top button
     add_top_button(player, force)
+
+    player.print("task-list: init(" .. (force and "true" or "false") .. ") - end")
 end
 
 -- Define events that will be handled

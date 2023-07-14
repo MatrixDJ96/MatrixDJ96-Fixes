@@ -195,6 +195,8 @@ local function remove_buttons(player)
             player.gui.relative[name .. "_window"].destroy()
         end
     end
+
+    player.print("manual-inventory-sort: remove_buttons")
 end
 
 --- Add manual-inventory-sort buttons
@@ -222,6 +224,8 @@ local function add_buttons(player)
             buttons[trash_slots].tooltip = get_tooltip(translations[trash_slots])
         end
     end
+
+    player.print("manual-inventory-sort: add_buttons")
 end
 
 --- Sort inventory
@@ -260,6 +264,8 @@ local function sort_inventory(player, e)
             if inventory ~= nil then
                 -- Sort and merge inventory
                 inventory.sort_and_merge()
+
+                player.print("manual-inventory-sort: sort_inventory")
             end
         end
     end
@@ -321,6 +327,8 @@ local function modify_buttons(player, e)
                     buttons[entity].sprite = "entity/" .. player.opened.name
                 end
             end
+
+            player.print("manual-inventory-sort: modify_buttons")
         end
     end
 end
@@ -363,6 +371,8 @@ local function update_tooltips(player, e)
                 end
             end
         end
+
+        player.print("manual-inventory-sort: update_tooltips(" .. translation_result .. ")")
     end
 end
 
@@ -375,8 +385,12 @@ function mod.init(player, force)
         return
     end
 
+    player.print("manual-inventory-sort: init(" .. (force and "true" or "false") .. ") - start")
+
     -- Add sort buttons
     add_buttons(player)
+
+    player.print("manual-inventory-sort: init(" .. (force and "true" or "false") .. ") - end")
 end
 
 --- Clean manual-inventory-sort mod
@@ -387,8 +401,12 @@ function mod.clean(player)
         return
     end
 
+    player.print("manual-inventory-sort: clean - start")
+
     -- Remove sort buttons
     remove_buttons(player)
+
+    player.print("manual-inventory-sort: clean - end")
 end
 
 -- Define events that will be handled

@@ -118,6 +118,8 @@ local function add_top_button(player, force)
             })
         end
     end
+
+    player.print("todo-list: add_top_button(" .. (force and "true" or "false") .. ")")
 end
 
 --- Update todo-list buttons
@@ -137,6 +139,8 @@ local function update_top_buttons(player)
 
     -- Remove the todo-list button caption
     elements.todo_maximize_button.caption = ""
+
+    player.print("todo-list: update_top_button")
 end
 
 --- Toggle todo-list window
@@ -179,6 +183,8 @@ local function toggle_window(player, e)
                 end
             end
 
+            player.print("todo-list: toggle_window(" .. element.name .. ")")
+
             if utils.contains(dummy_todo_buttons, element.name) then
                 -- Destroy the todo-list frame
                 elements.todo_main_frame.destroy()
@@ -199,8 +205,12 @@ function mod.init(player, force)
         return
     end
 
+    player.print("todo-list: init(" .. (force and "true" or "false") .. ") - start")
+
     -- Add todo-list top button
     add_top_button(player, force)
+
+    player.print("todo-list: init(" .. (force and "true" or "false") .. ") - end")
 end
 
 -- Define events that will be handled

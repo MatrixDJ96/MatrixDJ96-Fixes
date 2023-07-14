@@ -33,6 +33,8 @@ local function update_top_button(player)
             style = "mod_gui_button",
             sprite = "matrixdj96_train_log_icon"
         })
+
+        player.print("train-log: update_top_button(add)")
     end
 
     -- Update the train-log button
@@ -40,6 +42,8 @@ local function update_top_button(player)
         -- Set the button style and sprite
         train_log.style = "mod_gui_button"
         train_log.sprite = "matrixdj96_train_log_icon"
+
+        player.print("train-log: update_top_button(modify)")
     end
 end
 
@@ -52,8 +56,12 @@ function mod.init(player, force)
         return
     end
 
+    player.print("train-log: init(" .. (force and "true" or "false") .. ") - start")
+
     -- Add the train-log top button
     update_top_button(player)
+
+    player.print("train-log: init(" .. (force and "true" or "false") .. ") - end")
 end
 
 -- Define events that will be handled
