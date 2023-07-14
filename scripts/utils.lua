@@ -44,4 +44,10 @@ function utils.size(table)
 	return count
 end
 
+--- @param first MapPosition
+--- @param second MapPosition
+function utils.position(first, second)
+	return first.x == second.x and first.y == second.y
+end
+
 return utils

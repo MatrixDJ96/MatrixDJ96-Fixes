@@ -2,6 +2,7 @@ local mod_gui = require("__core__.lualib.mod-gui")
 local global_data = require("scripts.global-data")
 local player_data = require("scripts.player-data")
 local constants = require("constants")
+local utils = require("scripts.utils")
 
 local mod = {}
 
@@ -38,9 +39,12 @@ local function improve_placement(player, e)
             if other_entity ~= created_entity and other_entity.type ~= "entity-ghost" then
                 -- Check if other_entity has the same name and it is marked for deconstruction
                 if other_entity.name == name and other_entity.to_be_deconstructed() then
-                    -- Destroy created_entity ghost and cancel deconstruction of other_entity
-                    created_entity.order_deconstruction(player.force, player)
-                    other_entity.cancel_deconstruction(player.force, player)
+                    -- Check if other_entity has the same position as created_entity
+                    if utils.position(other_entity.position, position) then
+                        -- Destroy created_entity ghost and cancel deconstruction of other_entity
+                        created_entity.order_deconstruction(player.force, player)
+                        other_entity.cancel_deconstruction(player.force, player)
+                    end
                 end
             end
         end
