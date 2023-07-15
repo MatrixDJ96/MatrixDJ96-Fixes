@@ -43,6 +43,7 @@ local function update_top_button(player)
     end
 end
 
+--- Initialize train-log mod
 --- @param player LuaPlayer
 --- @param force? boolean
 function mod.init(player, force)

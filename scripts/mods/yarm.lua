@@ -203,7 +203,7 @@ local function toggle_background(player, e)
     end
 end
 
---- Initialize YARM
+--- Initialize YARM mod
 --- @param player LuaPlayer
 --- @param force? boolean
 function mod.init(player, force)

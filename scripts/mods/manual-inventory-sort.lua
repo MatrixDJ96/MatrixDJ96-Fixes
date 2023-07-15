@@ -366,7 +366,7 @@ local function update_tooltips(player, e)
     end
 end
 
---- Initialize mod
+--- Initialize manual-inventory-sort mod
 --- @param player LuaPlayer
 --- @param force? boolean
 function mod.init(player, force)
@@ -379,7 +379,7 @@ function mod.init(player, force)
     add_buttons(player)
 end
 
---- Clean mod
+--- Clean manual-inventory-sort mod
 --- @param player LuaPlayer
 function mod.clean(player)
     -- Check if required conditions are met
