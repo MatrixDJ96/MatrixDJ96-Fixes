@@ -26,27 +26,24 @@ local function modify_game_speed(player, e)
 
     -- Check if input event is a supported inputs
     if utils.contains(constants.speed_events, input_name) then
-        local current_speed = game.speed
+        local final_speed --[[@as number]]
 
         if input_name == "matrixdj96_speed_up" then
             -- Increase game speed
-            game.speed = game.speed + 0.1
+            final_speed = game.speed + 0.1
         elseif input_name == "matrixdj96_speed_down" then
             -- Decrease game speed
-            game.speed = game.speed - 0.1
+            final_speed = game.speed - 0.1
         else
             -- Get speed from input name
-            local speed = tonumber(input_name:sub(-1))
-
-            -- Check if speed is valid
-            if speed ~= nil then
-                -- Set game speed
-                game.speed = speed
-            end
+            final_speed = tonumber(input_name:sub(-1))
         end
 
-        -- Check if game speed has changed
-        if game.speed ~= current_speed then
+        -- Check if game speed is valid and it has changed
+        if final_speed > 0.1 and game.speed ~= final_speed then
+            -- Set new game speed
+            game.speed = final_speed
+
             -- Add flying text to player
             player.create_local_flying_text({
                 text = "Game speed: " .. game.speed,
