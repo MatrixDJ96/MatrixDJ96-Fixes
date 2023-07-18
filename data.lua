@@ -96,8 +96,8 @@ table.insert(custom_inputs, create_input("move_down", "move-down"))
 table.insert(custom_inputs, create_input("move_left", "move-left"))
 table.insert(custom_inputs, create_input("move_right", "move-right"))
 
-table.insert(custom_inputs, create_input("speed_up", "", "ALT + PLUS", "ALT + KP_PLUS"))
-table.insert(custom_inputs, create_input("speed_down", "", "ALT + MINUS", "ALT + KP_MINUS"))
+table.insert(custom_inputs, create_input("speed_up", "", "ALT + KP_PLUS"))
+table.insert(custom_inputs, create_input("speed_down", "", "ALT + KP_MINUS"))
 
 for i = 1, 9 do
 	table.insert(custom_inputs, create_input("speed_" .. i, "", "ALT + " .. i, "ALT + KP_" .. i))
