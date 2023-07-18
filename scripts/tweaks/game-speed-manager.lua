@@ -30,10 +30,10 @@ local function modify_game_speed(player, e)
 
         if input_name == "matrixdj96_speed_up" then
             -- Increase game speed
-            final_speed = game.speed + 0.1
+            final_speed = game.speed + 0.5
         elseif input_name == "matrixdj96_speed_down" then
             -- Decrease game speed
-            final_speed = game.speed - 0.1
+            final_speed = game.speed - 0.5
         else
             -- Get speed from input name
             final_speed = tonumber(input_name:sub(-1))
