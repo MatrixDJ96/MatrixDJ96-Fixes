@@ -1,4 +1,11 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.0.18
+Date: 2023-07-18
+  Changes:
+    - Removed invalid custom inputs
+    - Fixed possible invalid game speed set
+    - Increased game speed up/down values
+---------------------------------------------------------------------------------------------------
 Version: 0.0.17
 Date: 2023-07-14
   Changes:
